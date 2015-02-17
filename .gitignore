@@ -1,0 +1,17 @@
+# Ignore byte compiled files
+*.py[co]
+build
+dist
+*.egg-info
+
+# Ignore Eclipse IDE files
+.settings
+.project
+.pydevproject
+.directory
+
+# Ignore IDEA files
+.idea
+*.iml
+*.ipr
+*.iws
