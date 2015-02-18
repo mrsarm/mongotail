@@ -48,23 +48,16 @@ def main():
         skip = cursor.count() - DEFAULT_LIMIT
         if skip > 0:
             cursor.skip(skip)
-        if len(sys.argv) == 2:
-            for result in cursor:
-                print_obj(result)
-        elif len(sys.argv) == 3 and sys.argv[2] == "-f":
+        if len(sys.argv) == 3 and sys.argv[2] == "-f":
             cursor.add_option(2)  # Set the tailable flag
-            while cursor.alive:
-                try:
-                    result = next(cursor)
-                    print_obj(result)
-                except StopIteration:
-                    pass
-        else:
-            sys.stderr.write("ERROR: You have to specify the database name.")
+        while cursor.alive:
+            try:
+                result = next(cursor)
+                print_obj(result)
+            except StopIteration:
+                pass
     except KeyboardInterrupt:
         pass
-    if len(sys.argv) != 3 or sys.argv[2] != "-f":
-        client.disconnect()
 
 def print_obj(obj):
     time = obj['ts']
