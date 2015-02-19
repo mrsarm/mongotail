@@ -22,7 +22,7 @@
 ##############################################################################
 
 from setuptools import setup
-from mongotail.mongotail import __version__, __license__
+from mongotail.mongotail import __version__, __license__, __doc__
 
 setup(
     name = 'mongotail',
@@ -32,7 +32,7 @@ setup(
     download_url='https://github.com/mrsarm/mongotail/tarball/' + __version__,
     author='Mariano Ruiz',
     author_email='mrsarm@gmail.com',
-    description='Log all MongoDB queries in a "tail"able way',
+    description=__doc__,
     packages=[
         'mongotail',
     ],
