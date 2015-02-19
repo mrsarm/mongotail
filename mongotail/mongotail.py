@@ -25,13 +25,15 @@
 __author__ = 'Mariano Ruiz'
 __version__ = '0.1.0'
 __license__ = 'GPL-3'
+__url__ = 'https://github.com/mrsarm/mongotail'
 __doc__ = """Mongotail, Log all MongoDB queries in a "tail"able way."""
 __usage__ = """%(prog)s [db address] [options]
 
 db address can be:
-  foo                   foo database on local machine
+  foo                   foo database on local machine (IPv4 connection)
   192.169.0.5/foo       foo database on 192.168.0.5 machine
-  192.169.0.5:9999/foo  foo database on 192.168.0.5 machine on port 9999"""
+  192.169.0.5:9999/foo  foo database on 192.168.0.5 machine on port 9999
+  "[::1]:9999/foo"      foo database on ::1 machine on port 9999 (IPv6 connection)"""
 
 
 import sys, re, argparse, getpass
@@ -48,17 +50,36 @@ LOG_QUERY = {
 }
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
 
-def main(args, address):
+def start(args, address):
     try:
         host = port = None
         if '/' in address:
-            host, dbname = address.split('/')
-            if ':' in host:
-                host, port = host.split(':')
-                try:
-                    port = int(port)
-                except ValueError:
-                    error_parsing('Invalid port number "%s"' % port)
+            try:
+                host, dbname = address.split('/')
+            except ValueError:
+                error_parsing('Invalid address "%s"' % address)
+            else:
+                if host.startswith("[") and "]" in host:
+                    # IPv6 address
+                    # See http://api.mongodb.org/python/2.8/api/pymongo/connection.html
+                    # If the connection is refused, you have to ensure that `mongod`
+                    # is running with `--ipv6` option enabled, and "bind_ip" value are
+                    # disabled in `mongod.conf`, or is enabled with your
+                    # IPv6 address in the list.
+                    if "]:" in host:
+                        port = host[host.index("]:")+2:]
+                        host = host[:host.index("]:")+1]
+                elif ':' in host:
+                    # IPv4 address
+                    try:
+                        host, port = host.split(':')
+                    except ValueError:
+                        error_parsing('Invalid host "%s"' % host)
+                if port:
+                    try:
+                        port = int(port)
+                    except ValueError:
+                        error_parsing('Invalid port number "%s"' % port)
         else:
             dbname = address
         try:
@@ -99,7 +120,7 @@ def main(args, address):
 def print_obj(obj):
     ts_time = obj['ts']
     operation = obj['op']
-    doc = obj['ns'].split(".")[1]
+    doc = obj['ns'].split(".")[-1]
     if operation in ('query', 'insert', 'remove', 'update'):
         if 'query' in obj:
             query = json_util.dumps(obj['query'])
@@ -140,7 +161,7 @@ def error_unknown():
     exit(-1)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description=__doc__, usage=__usage__)
     egroup = parser.add_mutually_exclusive_group()
     parser.add_argument("-u", dest="username", default=None,
@@ -152,7 +173,7 @@ if __name__ == "__main__":
                         help="output the last N lines, instead of the last 10. Use ALL value to show all lines")
     parser.add_argument("-f", "--follow", dest="follow", action="store_true", default=False,
                         help="output appended data as the log grows")
-    parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
+    parser.add_argument('--version', action='version', version='%(prog)s ' + __version__ + "\n<" + __url__ + ">")
     args, address = parser.parse_known_args()
     if address and len(address) and address[0] == sys.argv[1]:
         address = address[0]
@@ -162,4 +183,7 @@ if __name__ == "__main__":
         error_parsing()
     if address.startswith("-"):
         error_parsing()
-    main(args, address)
+    start(args, address)
+
+if __name__ == "__main__":
+    main()

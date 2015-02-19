@@ -22,14 +22,14 @@
 ##############################################################################
 
 from setuptools import setup
-from mongotail.mongotail import __version__, __license__, __doc__
+from mongotail.mongotail import __version__, __license__, __doc__, __url__
 
 setup(
     name = 'mongotail',
     version=__version__,
     license=__license__,
-    url='https://github.com/mrsarm/mongotail',
-    download_url='https://github.com/mrsarm/mongotail/tarball/' + __version__,
+    url=__url__,
+    download_url=__url__ + '/tarball/' + __version__,
     author='Mariano Ruiz',
     author_email='mrsarm@gmail.com',
     description=__doc__,
