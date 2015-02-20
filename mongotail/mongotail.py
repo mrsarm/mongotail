@@ -38,7 +38,11 @@ db address can be:
 
 import sys, re, argparse, getpass
 from pymongo import MongoClient
-from bson import json_util
+
+from conn import get_host_port_db
+from out import print_obj
+from err import error_unknown, error_parsing
+
 
 DEFAULT_LIMIT = 10
 LOG_QUERY = {
@@ -50,38 +54,9 @@ LOG_QUERY = {
 }
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
 
-def start(args, address):
+def tail(args, address):
     try:
-        host = port = None
-        if '/' in address:
-            try:
-                host, dbname = address.split('/')
-            except ValueError:
-                error_parsing('Invalid address "%s"' % address)
-            else:
-                if host.startswith("[") and "]" in host:
-                    # IPv6 address
-                    # See http://api.mongodb.org/python/2.8/api/pymongo/connection.html
-                    # If the connection is refused, you have to ensure that `mongod`
-                    # is running with `--ipv6` option enabled, and "bind_ip" value are
-                    # disabled in `mongod.conf`, or is enabled with your
-                    # IPv6 address in the list.
-                    if "]:" in host:
-                        port = host[host.index("]:")+2:]
-                        host = host[:host.index("]:")+1]
-                elif ':' in host:
-                    # IPv4 address
-                    try:
-                        host, port = host.split(':')
-                    except ValueError:
-                        error_parsing('Invalid host "%s"' % host)
-                if port:
-                    try:
-                        port = int(port)
-                    except ValueError:
-                        error_parsing('Invalid port number "%s"' % port)
-        else:
-            dbname = address
+        host,  port, dbname = get_host_port_db(address)
         try:
             client = MongoClient(host=host, port=port)
         except Exception as e:
@@ -117,49 +92,6 @@ def start(args, address):
     except KeyboardInterrupt:
         pass
 
-def print_obj(obj):
-    ts_time = obj['ts']
-    operation = obj['op']
-    doc = obj['ns'].split(".")[-1]
-    if operation in ('query', 'insert', 'remove', 'update'):
-        if 'query' in obj:
-            query = json_util.dumps(obj['query'])
-        else:
-            query = ""
-        if operation == 'update':
-            if 'updateobj' in obj:
-                query += ' -> ' + json_util.dumps(obj['updateobj'])
-                query += '. %s updated.' % obj['nMatched']
-        elif operation == 'insert':
-            if query != "":
-                query += ". "
-            query += '%s inserted.' % obj['ninserted']
-        elif operation == 'remove':
-            query += '. %s deleted.' % obj['ndeleted']
-    elif operation == "command":
-        query = json_util.dumps(obj['command']['query'])
-        if 'count' in obj["command"]:
-            doc = obj["command"]["count"]
-            operation = "count"
-        else:
-            raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_util.dumps(obj)))
-    else:
-        raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_util.dumps(obj)))
-    #print json_util.dumps(obj)
-    sys.stdout.write("%s %s [%s] : %s\n" % (ts_time.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
-                     operation.upper().ljust(6), doc, query))
-    sys.stdout.flush()  # Allows pipe the output during the execution with others tools like 'grep'
-
-
-def error_parsing(msg="unknown options"):
-    sys.stderr.write("Error parsing command line: %s\ntry '%s --help' for more information\n" % (msg, sys.argv[0]))
-    exit(-1)
-
-
-def error_unknown():
-    sys.stderr.write("Unknown Error\ntry '%s --help' for more information\n" % sys.argv[0])
-    exit(-1)
-
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, usage=__usage__)
@@ -178,12 +110,12 @@ def main():
     if address and len(address) and address[0] == sys.argv[1]:
         address = address[0]
     elif len(address) == 0:
-        error_parsing("db name expected")
+        error_parsing("db address expected")
     else:
         error_parsing()
     if address.startswith("-"):
         error_parsing()
-    start(args, address)
+    tail(args, address)
 
 if __name__ == "__main__":
     main()
