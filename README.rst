@@ -4,9 +4,9 @@ Mongotail
 Mongotail, Log all MongoDB queries in a *"tail"able* way.
 
 ``mongotail`` is a command line tool to outputs any operation from a Mongo
-database in the standard output. You can see the operations from
-a console, or redirect the result to a file, pipes it with ``grep`` or other
-command line tool, etc.
+database in the standard output. You can see the operations collected by the
+database profiler from a console, or redirect the result to a file, pipes
+it with ``grep`` or other command line tool, etc.
 
 The syntax is very similar to ``mongo`` client, and the output, as like
 the ``tail`` command will be the latest 10 lines of logging.
@@ -46,15 +46,34 @@ Optional arguments:
     -h, --help            show help message and exit
     --version             show program's version number and exit
 
+**NOTE**: You have to active first in the current database the
+`profiler <http://docs.mongodb.org/manual/reference/method/db.setProfilingLevel>`_,
+so MongoDB will capture all the activity in a special document that is read by Mongotail.
+See `Enable Database Profiling.. <http://docs.mongodb.org/manual/tutorial/manage-the-database-profiler/#enable-database-profiling-and-set-the-profiling-level>`_
+to read how to active it.
+
 
 Installation
 ------------
 
-You can install the latest stable version with ``pip`` in your environment::
+You can install the latest stable version with ``pip`` in your environment with::
 
     $ pip install mongotail
 
-See ``INSTALL.rst`` guide to install from the sources.
+See `<INSTALL.rst>`_ guide to install from sources.
+
+
+TODO
+----
+
+Project under construction. It's working now, but these are some tasks to do:
+
+- Output some BSON types in a more convenient format
+  (like ObjectId and Timestamp types).
+- Enable / Disable profiler from the command (without the need to do
+  from an external client).
+- Publish it in *PyPI* repository (for now install from sources).
+- More documentation, and better english to write it  :-)
 
 
 About
