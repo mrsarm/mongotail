@@ -1,5 +1,5 @@
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015 Mariano Ruiz (<http://mrdev.com.ar>).
+#  Copyright (C) 2015 Mariano Ruiz (<https://github.com/mrsarm/mongotail>).
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -23,6 +23,9 @@ from bson import json_util
 
 
 def print_obj(obj):
+    """
+    Print the dict returned by a MongoDB Query in the standard output.
+    """
     ts_time = obj['ts']
     operation = obj['op']
     doc = obj['ns'].split(".")[-1]

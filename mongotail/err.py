@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015 Mariano Ruiz (<http://mrdev.com.ar>).
+#  Copyright (C) 2015 Mariano Ruiz (<https://github.com/mrsarm/mongotail>).
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -25,10 +25,16 @@ import sys
 
 
 def error_parsing(msg="unknown options"):
+    """
+    Print any parsing error and exit with status -1
+    """
     sys.stderr.write("Error parsing command line: %s\ntry '%s --help' for more information\n" % (msg, sys.argv[0]))
     exit(-1)
 
 
 def error_unknown():
+    """
+    Print an unexpected error and exit with status -5
+    """
     sys.stderr.write("Unknown Error\ntry '%s --help' for more information\n" % sys.argv[0])
-    exit(-1)
+    exit(-5)
