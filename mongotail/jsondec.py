@@ -21,11 +21,9 @@
 #
 ##############################################################################
 
-import json
-from bson import ObjectId
+import re, json
+from bson import ObjectId, DBRef
 from datetime import datetime
-import re
-from bson import json_util
 
 REGEX_TYPE = type(re.compile(""))
 
@@ -33,17 +31,25 @@ REGEX_TYPE = type(re.compile(""))
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
-            return "ObjectId('%s')" % str(o)
+            return "ObjectId(%sObjectId)" % str(o)
+        if isinstance(o, DBRef):
+            return "DBRef(Field(%sField), ObjectId(%sObjectId)DBRef)" % (o.collection, str(o.id))
         if isinstance(o, datetime):
-            return "ISODate(" + o.strftime("%Y-%m-%d_%H:%M:%S.%f")[:-3].replace("_", "T") + "ZISODate)"
+            return "ISODate(" + o.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "ZISODate)"
         if isinstance(o, REGEX_TYPE):
             return {"$regex": o.pattern}
         return json.JSONEncoder.default(self, o)
 
     def encode(self, o):
         result = super(JSONEncoder, self).encode(o)
-        result = result.replace(""""ObjectId('""", """ObjectId(\"""")
-        result = result.replace("""')\"""", """\")""")
+        result = result.replace('Field(', '"')
+        result = result.replace("Field)", '"')
+        result = result.replace('ObjectId(', 'ObjectId("')
+        result = result.replace('"ObjectId(', 'ObjectId(')
+        result = result.replace('ObjectId)"', '")')
+        result = result.replace('ObjectId)', '")')
+        result = result.replace('"DBRef(', 'DBRef(')
+        result = result.replace("DBRef)\"", ')')
         result = result.replace("\"ISODate(", "ISODate(\"")
         result = result.replace("ISODate)\"", "\")")
         return result
