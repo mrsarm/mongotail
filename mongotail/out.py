@@ -19,7 +19,10 @@
 ##############################################################################
 
 import sys
-from bson import json_util
+from jsondec import JSONEncoder
+
+
+json_encoder = JSONEncoder()
 
 
 def print_obj(obj):
@@ -31,12 +34,12 @@ def print_obj(obj):
     doc = obj['ns'].split(".")[-1]
     if operation in ('query', 'insert', 'remove', 'update'):
         if 'query' in obj:
-            query = json_util.dumps(obj['query'])
+            query = json_encoder.encode(obj['query'])
         else:
             query = ""
         if operation == 'update':
             if 'updateobj' in obj:
-                query += ' -> ' + json_util.dumps(obj['updateobj'])
+                query += ' -> ' + json_encoder.encode(obj['updateobj'])
                 query += '. %s updated.' % obj['nMatched']
         elif operation == 'insert':
             if query != "":
@@ -45,16 +48,16 @@ def print_obj(obj):
         elif operation == 'remove':
             query += '. %s deleted.' % obj['ndeleted']
     elif operation == "command":
-        query = json_util.dumps(obj['command']['query'])
+        query = json_encoder.encode(obj['command']['query'])
         if 'count' in obj["command"]:
             doc = obj["command"]["count"]
             operation = "count"
         else:
-            raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_util.dumps(obj)))
+            raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
     else:
-        raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_util.dumps(obj)))
+        raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
 
-    #print json_util.dumps(obj)
+    #print json_encoder.encode(obj)
     sys.stdout.write("%s %s [%s] : %s\n" % (ts_time.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
                                             operation.upper().ljust(6), doc, query))
     sys.stdout.flush()  # Allows pipe the output during the execution with others tools like 'grep'

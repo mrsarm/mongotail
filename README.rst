@@ -36,15 +36,15 @@ Usage::
 
 Optional arguments:
 
-    -u USERNAME           username for authentication
-    -p PASSWORD, --password PASSWORD
-                          password for authentication. If username is given and
-                          password isn't, it's asked from the tty.
-    -n N, --lines N       output the last N lines, instead of the last 10. Use
-                          ALL value to show all lines
-    -f, --follow          output appended data as the log grows
-    -h, --help            show help message and exit
-    --version             show program's version number and exit
+-u USERNAME           username for authentication
+-p PASSWORD, --password PASSWORD
+                      password for authentication. If username is given and
+                      password isn't, it's asked from the tty.
+-n N, --lines N       output the last N lines, instead of the last 10. Use
+                      ALL value to show all lines
+-f, --follow          output appended data as the log grows
+-h, --help            show help message and exit
+--version             show program's version number and exit
 
 **NOTE**: You have to active first in the current database the
 `profiler <http://docs.mongodb.org/manual/reference/method/db.setProfilingLevel>`_,
@@ -68,8 +68,7 @@ TODO
 
 Project under construction. It's working now, but these are some tasks to do:
 
-- Output some BSON types in a more convenient format
-  (like ObjectId and Timestamp types).
+- Output some BSON types in a more convenient format.
 - Enable / Disable profiler from the command (without the need to do
   from an external client).
 - Publish it in *PyPI* repository (for now install from sources).
