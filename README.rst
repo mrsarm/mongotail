@@ -91,18 +91,6 @@ You can install the latest stable version with ``pip`` in your environment with:
 See `<INSTALL.rst>`_ guide to install from sources.
 
 
-TODO
-----
-
-Project under construction. It's working now, but these are some tasks to do:
-
-- Output some BSON types in a more convenient format.
-- Enable / Disable profiler from the command (without the need to do
-  from an external client).
-- Publish it in *PyPI* repository (for now install from sources).
-- More documentation, and better english to write it  :-)
-
-
 About
 -----
 
