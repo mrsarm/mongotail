@@ -1,7 +1,7 @@
 Mongotail
 =========
 
-Mongotail, Log all MongoDB queries in a *"tail"able* way.
+Mongotail, Log all `MongoDB <http://www.mongodb.org>`_ queries in a *"tail"able* way.
 
 ``mongotail`` is a command line tool to outputs any operation from a Mongo
 database in the standard output. You can see the operations collected by the
@@ -81,12 +81,33 @@ Then you can see the last lines of logging with::
     ...
 
 
+**NOTE**: The level chosen can affect performance. It also can allow the
+server to write the contents of queries to the log, which might have
+information security implications for your deployment. Remember to setup your
+database profiling level to ``0`` again after debugging your data::
+
+    $ mongotail MYDATABASE -l 0
+
+
 Installation
 ------------
 
-You can install the latest stable version with ``pip`` in your environment with::
+You can install the latest stable version with ``pip`` in your environment.
+
+If you haven't installed ``pymongo`` library do::
+
+    $ pip install pymongo
+
+Then install this tool with::
 
     $ pip install mongotail
+
+Execute these command with administrator/root privileges.
+
+You have to be installed ``pip`` tool first. In Debian/Ubuntu Linux
+distribution you can install it with (also with root privileges)::
+
+    $ apt-get install python-pip python-dev
 
 See `<INSTALL.rst>`_ guide to install from sources.
 

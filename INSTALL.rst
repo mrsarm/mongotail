@@ -23,3 +23,18 @@ site-packages directory on your system.
 
 For advanced options, please refer to the easy_install and/or the distutils
 documentation.
+
+
+Install requirements in Debian based Linux distribution
+-------------------------------------------------------
+
+First, install essential build packages and Python build tools with::
+
+    $ apt-get install python-pip python-dev build-essential python-setuptools
+
+Then install ``pymongo`` library with::
+
+    $ pip install pymongo
+
+Like the *Installation* instructions, you may need administrator/root privileges
+for this step.
