@@ -1,4 +1,3 @@
 include COPYING
-include COPYING.LESSER
 include README.rst
 include INSTALL.rst
