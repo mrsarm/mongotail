@@ -4,15 +4,16 @@ Installing mongotail
 Prerequisites
 -------------
 
-* Python 2.6+ or Python 3.3+
+* Python 2.6+ or Python 3.3+ (only tested with 2.7 and 3.4)
 * pymongo (only tested with version 2.8)
 
 
 Installation
 ------------
 
-Once you've downloaded and unpacked the mongotail source release,
-enter the directory where the archive was unpacked, and run::
+Once you've installed the dependencies, and downloaded and unpacked
+the mongotail source release, enter the directory where the archive
+was unpacked, and run::
 
     python setup.py install
 

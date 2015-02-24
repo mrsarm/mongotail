@@ -21,7 +21,10 @@
 #
 ##############################################################################
 
-from err import error_parsing
+from __future__ import absolute_import
+import getpass
+from .err import error, error_parsing
+from pymongo import MongoClient
 
 def get_host_port_db(address):
     """
@@ -64,3 +67,29 @@ def get_host_port_db(address):
     else:
         dbname = address
     return host, port, dbname
+
+
+def connect(address, username=None, password=None):
+    """
+    Connect with `address`, and return a tuple with a :class:`~pymongo.MongoClient`,
+    and a :class:`~pymongo.database.Database` object.
+    :param address: a string representation with the db address
+    :param username: username for authentication (optional)
+    :param password: password for authentication. If username is given and password isn't,
+    it's asked from tty.
+    :return: a tuple with ``(client, db)``
+    """
+    host,  port, dbname = get_host_port_db(address)
+    try:
+        client = MongoClient(host=host, port=port)
+    except Exception as e:
+        error("Error trying to connect: %s" % str(e), -2)
+    db = client[dbname]
+    if username:
+        if password == None:
+            password = getpass.getpass()
+        try:
+            db.authenticate(username, password, mechanism='MONGODB-CR')
+        except Exception as e:
+            error("Error trying to authenticate: %s" % str(e), -3)
+    return client, db

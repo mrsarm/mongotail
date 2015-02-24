@@ -9,7 +9,7 @@ database profiler from a console, or redirect the result to a file, pipes
 it with ``grep`` or other command line tool, etc.
 
 The syntax is very similar to ``mongo`` client, and the output, as like
-the ``tail`` command will be the latest 10 lines of logging.
+``tail`` command will be the latest 10 lines of logging.
 
 But the more interesting feature (also like ``tail``) is to see the changes
 in *"real time"* with the ``-f`` option, and occasionally filter the result
@@ -29,28 +29,56 @@ Usage::
 +----------------------+-------------------------------------------------------------+
 | 192.169.0.5/foo      | foo database on 192.168.0.5 machine                         |
 +----------------------+-------------------------------------------------------------+
+| remotehost/foo       | foo database on *remotehost* machine                        |
++----------------------+-------------------------------------------------------------+
 | 192.169.0.5:9999/foo | foo database on 192.168.0.5 machine on port 9999            |
 +----------------------+-------------------------------------------------------------+
 | "[::1]:9999/foo"     | foo database on ::1 machine on port 9999 (IPv6 connection)  |
 +----------------------+-------------------------------------------------------------+
 
+
 Optional arguments:
 
--u USERNAME           username for authentication
+-u USERNAME, --username USERNAME
+                      username for authentication
 -p PASSWORD, --password PASSWORD
                       password for authentication. If username is given and
-                      password isn't, it's asked from the tty.
+                      password isn't, it's asked from tty.
 -n N, --lines N       output the last N lines, instead of the last 10. Use
                       ALL value to show all lines
 -f, --follow          output appended data as the log grows
--h, --help            show help message and exit
+-l LEVEL, --level LEVEL
+                      Specifies the profiling level, which is either 0 for
+                      no profiling, 1 for only slow operations, or 2 for all
+                      operations. USES this option once before logging the
+                      database
+-s MS, --slowms MS    Sets the threshold in milliseconds for the profile to
+                      consider a query or operation to be slow (use with
+                      `--level 1`).
+-h, --help            show this help message and exit
 --version             show program's version number and exit
 
-**NOTE**: You have to active first in the current database the
+
+Enabling Database Profiling and Showing Logs
+--------------------------------------------
+
+You have to activate first in the current database the
 `profiler <http://docs.mongodb.org/manual/reference/method/db.setProfilingLevel>`_,
 so MongoDB will capture all the activity in a special document that is read by Mongotail.
-See `Enable Database Profiling.. <http://docs.mongodb.org/manual/tutorial/manage-the-database-profiler/#enable-database-profiling-and-set-the-profiling-level>`_
-to read how to active it.
+
+You can achieve this with ``-l, --level`` option. For example, if you want to see the logs
+from MYDATABASE, first you have to execute this::
+
+    $ mongotail MYDATABASE -l 2
+
+Then you can see the last lines of logging with::
+
+    $ mongotail MYDATABASE
+    2015-02-24 19:17:01.194 QUERY  [Company] : {"_id": ObjectId("548b164144ae122dc430376b")}
+    2015-02-24 19:17:01.195 QUERY  [User] : {"_id": ObjectId("549048806b5d3db78cf6f654")}
+    2015-02-24 19:17:01.196 QUERY  [Company] : {"_id": ObjectId("548b16df44ae122dc4303771")}
+    2015-02-24 19:17:10.729 COUNT  [User] : {"active": {"$exists": true}, "firstName": {"$regex": "mac"}}
+    ...
 
 
 Installation

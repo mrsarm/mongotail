@@ -18,8 +18,10 @@
 #
 ##############################################################################
 
+
+from __future__ import absolute_import
 import sys
-from jsondec import JSONEncoder
+from .jsondec import JSONEncoder
 
 
 json_encoder = JSONEncoder()

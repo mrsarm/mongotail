@@ -21,7 +21,16 @@
 #
 ##############################################################################
 
+
 import sys
+
+
+def error(msg, exit_code):
+    """
+    Print `msg` error and exit with status `exit_code`
+    """
+    sys.stderr.write("%s\ntry '%s --help' for more information\n" % (msg, sys.argv[0]))
+    exit(exit_code)
 
 
 def error_parsing(msg="unknown options"):
