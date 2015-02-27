@@ -28,10 +28,11 @@ import sys, re, argparse
 from .conn import connect
 from .out import print_obj
 from .err import error, error_parsing
+from pymongo.read_preferences import ReadPreference
 
 
 __author__ = 'Mariano Ruiz'
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 __license__ = 'GPL-3'
 __url__ = 'https://github.com/mrsarm/mongotail'
 __doc__ = """Mongotail, Log all MongoDB queries in a "tail"able way."""
@@ -72,20 +73,38 @@ def tail(client, db, lines, follow):
             pass
 
 
+def show_profiling_level(client, db):
+    try:
+        level = db.profiling_level()
+        sys.stdout.write("Profiling level currently in level %s\n" % level)
+    except Exception as e:
+        error('Error trying to get profiling level. %s' % e, -6)
+
+
 def set_profiling_level(client, db, level):
     try:
         db.set_profiling_level(int(level))
-    except ValueError as e:
+        sys.stdout.write("Profiling level set to level %s\n" % level)
+    except Exception as e:
         err = str(e).replace("OFF", "0").replace("SLOW_ONLY", "1").replace("ALL", "2")
-        error('Error configuring profiling level "%s". %s' % (level, err), -6)
+        error('Error configuring profiling level to "%s". %s' % (level, err), -7)
 
 
 def set_slowms_level(client, db, slowms):
     profiling_level = db.profiling_level()
     try:
         db.set_profiling_level(profiling_level, int(slowms))
-    except (ValueError, TypeError) as e:
-        error('Error configuring threshold in "%s". %s' % (slowms, str(e)), -7)
+        sys.stdout.write("Threshold profiling set to %s milliseconds\n" % slowms)
+    except Exception as e:
+        error('Error configuring threshold profiling in "%s" milliseconds. %s' % (slowms, str(e)), -8)
+
+
+def show_slowms_level(client, db):
+    try:
+        level = db.command("profile", -1, read_preference=ReadPreference.PRIMARY)
+        sys.stdout.write("Threshold profiling currently in %s milliseconds\n" % level['slowms'])
+    except Exception as e:
+        error('Error trying to get threshold profiling level. %s' % e, -6)
 
 
 def main():
@@ -104,11 +123,13 @@ def main():
                             help="output appended data as the log grows")
         parser.add_argument("-l", "--level", dest="level", default=None,
                             help="Specifies the profiling level, which is either 0 for no profiling, "
-                                 "1 for only slow operations, or 2 for all operations. "
-                                 "USES this option once before logging the database")
+                                 "1 for only slow operations, or 2 for all operations. Or use with 'status' word "
+                                 "to show the current level configured. "
+                                 "Uses this option once before logging the database")
         parser.add_argument("-s", "--slowms", dest="ms", default=None,
                             help="Sets the threshold in milliseconds for the profile to consider a query "
-                                 "or operation to be slow (use with `--level 1`).")
+                                 "or operation to be slow (use with `--level 1`). Or use with 'status' word "
+                                 "to show the current level configured. ")
         parser.add_argument('--version', action='version', version='%(prog)s ' + __version__ + "\n<" + __url__ + ">")
         args, address = parser.parse_known_args()
         if address and len(address) and address[0] == sys.argv[1]:
@@ -125,9 +146,15 @@ def main():
 
         # Execute command
         if args.level:
-            set_profiling_level(client, db, args.level)
+            if args.level.lower() == "status":
+                show_profiling_level(client, db)
+            else:
+                set_profiling_level(client, db, args.level)
         elif args.ms:
-            set_slowms_level(client, db, args.ms)
+            if args.ms.lower() == "status":
+                show_slowms_level(client, db)
+            else:
+                set_slowms_level(client, db, args.ms)
         else:
             tail(client, db, args.n, args.follow)
     except KeyboardInterrupt:
