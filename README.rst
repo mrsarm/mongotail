@@ -50,11 +50,13 @@ Optional arguments:
 -l LEVEL, --level LEVEL
                       Specifies the profiling level, which is either 0 for
                       no profiling, 1 for only slow operations, or 2 for all
-                      operations. USES this option once before logging the
-                      database
+                      operations. Or use with 'status' word to show the
+                      current level configured. Uses this option once before
+                      logging the database
 -s MS, --slowms MS    Sets the threshold in milliseconds for the profile to
                       consider a query or operation to be slow (use with
-                      `--level 1`).
+                      `--level 1`). Or use with 'status' word to show the
+                      current milliseconds configured.
 -h, --help            show this help message and exit
 --version             show program's version number and exit
 
