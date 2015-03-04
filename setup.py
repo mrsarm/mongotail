@@ -23,7 +23,7 @@
 
 
 from setuptools import setup
-from mongotail.mongotail import __version__, __license__, __doc__, __url__
+from mongotail import __version__, __license__, __doc__, __url__
 
 
 setup(
