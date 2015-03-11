@@ -73,7 +73,7 @@ from MYDATABASE, first you have to execute this::
 
     $ mongotail MYDATABASE -l 2
 
-Then you can see the last lines of logging with::
+Then you can see the latest lines of logging with::
 
     $ mongotail MYDATABASE
     2015-02-24 19:17:01.194 QUERY  [Company] : {"_id": ObjectId("548b164144ae122dc430376b")}
@@ -94,13 +94,7 @@ database profiling level to ``0`` again after debugging your data::
 Installation
 ------------
 
-You can install the latest stable version with ``pip`` in your environment.
-
-If you haven't installed ``pymongo`` library do::
-
-    $ pip install pymongo
-
-Then install this tool with::
+You can install the latest stable version with ``pip`` in your environment with::
 
     $ pip install mongotail
 

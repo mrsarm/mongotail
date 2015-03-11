@@ -34,9 +34,11 @@ from . import __version__, __license__, __doc__, __url__, __usage__
 
 DEFAULT_LIMIT = 10
 LOG_QUERY = {
-        "ns": re.compile("^((?!\.system\.).)*$"),
+        "ns": re.compile(r"^((?!(admin\.\$cmd|\.system)).)*$"),
         "command.profile": {"$exists": False},
         "command.collStats": {"$exists": False},
+        "command.collstats": {"$exists": False},
+        "command.dbstats": {"$exists": False},
         "command.count": {"$ne": "system.profile"},
         "op": {"$ne":"getmore"},
 }

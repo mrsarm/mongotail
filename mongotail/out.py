@@ -22,6 +22,7 @@
 from __future__ import absolute_import
 import sys
 from .jsondec import JSONEncoder
+from .err import warn
 
 
 json_encoder = JSONEncoder()
@@ -31,35 +32,38 @@ def print_obj(obj):
     """
     Print the dict returned by a MongoDB Query in the standard output.
     """
-    ts_time = obj['ts']
-    operation = obj['op']
-    doc = obj['ns'].split(".")[-1]
-    if operation in ('query', 'insert', 'remove', 'update'):
-        if 'query' in obj:
-            query = json_encoder.encode(obj['query'])
+    try:
+        #sys.stdout.write(">DEBUG> %s\n" % obj)
+        ts_time = obj['ts']
+        operation = obj['op']
+        doc = obj['ns'].split(".")[-1]
+        if operation in ('query', 'insert', 'remove', 'update'):
+            if 'query' in obj:
+                query = json_encoder.encode(obj['query'])
+            else:
+                query = ""
+            if operation == 'update':
+                if 'updateobj' in obj:
+                    query += ' -> ' + json_encoder.encode(obj['updateobj'])
+                    query += '. %s updated.' % obj['nMatched']
+            elif operation == 'insert':
+                if query != "":
+                    query += ". "
+                query += '%s inserted.' % obj['ninserted']
+            elif operation == 'remove':
+                query += '. %s deleted.' % obj['ndeleted']
+        elif operation == "command":
+            query = json_encoder.encode(obj['command']['query'])
+            if 'count' in obj["command"]:
+                doc = obj["command"]["count"]
+                operation = "count"
+            else:
+                warn('Unknown command operation\nDump: %s' % json_encoder.encode(obj))
         else:
-            query = ""
-        if operation == 'update':
-            if 'updateobj' in obj:
-                query += ' -> ' + json_encoder.encode(obj['updateobj'])
-                query += '. %s updated.' % obj['nMatched']
-        elif operation == 'insert':
-            if query != "":
-                query += ". "
-            query += '%s inserted.' % obj['ninserted']
-        elif operation == 'remove':
-            query += '. %s deleted.' % obj['ndeleted']
-    elif operation == "command":
-        query = json_encoder.encode(obj['command']['query'])
-        if 'count' in obj["command"]:
-            doc = obj["command"]["count"]
-            operation = "count"
-        else:
-            raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
-    else:
-        raise RuntimeError('Unknow command "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
+            warn('Unknown operation "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
 
-    #print json_encoder.encode(obj)
-    sys.stdout.write("%s %s [%s] : %s\n" % (ts_time.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
-                                            operation.upper().ljust(6), doc, query))
-    sys.stdout.flush()  # Allows pipe the output during the execution with others tools like 'grep'
+        sys.stdout.write("%s %s [%s] : %s\n" % (ts_time.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
+                                                operation.upper().ljust(6), doc, query))
+        sys.stdout.flush()  # Allows pipe the output during the execution with others tools like 'grep'
+    except KeyError:
+        warn('Unknown registry\nDump: %s' % json_encoder.encode(obj))
