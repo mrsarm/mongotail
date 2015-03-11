@@ -9,6 +9,7 @@ Mongotail changelog
   the levels, a message in the output standard confirms the operation.
 * Fixed imports to avoid install requires exception with ``pip``.
 * Removed from MANIFEST invalid license file name entry.
+* Changed arbitrary error exit codes by standard *errno* codes.
 * Fixed documentation.
 
 
