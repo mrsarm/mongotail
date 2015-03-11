@@ -23,6 +23,7 @@
 
 
 import sys
+from errno import EINVAL, EINTR, ECONNREFUSED, EFAULT, EDESTADDRREQ
 
 
 def warn(msg):
@@ -41,7 +42,7 @@ def error_parsing(msg="unknown options"):
     Print any parsing error and exit with status -1
     """
     sys.stderr.write("Error parsing command line: %s\ntry '%s --help' for more information\n" % (msg, sys.argv[0]))
-    exit(-1)
+    exit(EINVAL)
 
 
 def error_unknown():
@@ -49,4 +50,4 @@ def error_unknown():
     Print an unexpected error and exit with status -5
     """
     sys.stderr.write("Unknown Error\ntry '%s --help' for more information\n" % sys.argv[0])
-    exit(-5)
+    exit(-1)

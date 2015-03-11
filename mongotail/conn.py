@@ -23,7 +23,7 @@
 
 from __future__ import absolute_import
 import getpass
-from .err import error, error_parsing
+from .err import error, error_parsing, ECONNREFUSED, EFAULT
 from pymongo import MongoClient
 
 def get_host_port_db(address):
@@ -41,7 +41,7 @@ def get_host_port_db(address):
         try:
             host, dbname = address.split('/')
         except ValueError:
-            error_parsing('Invalid address "%s"' % address)
+            error('Invalid address "%s"' % address, EFAULT)
         else:
             if host.startswith("[") and "]" in host:
                 # IPv6 address
@@ -83,7 +83,7 @@ def connect(address, username=None, password=None):
     try:
         client = MongoClient(host=host, port=port)
     except Exception as e:
-        error("Error trying to connect: %s" % str(e), -2)
+        error("Error trying to connect: %s" % str(e), ECONNREFUSED)
     db = client[dbname]
     if username:
         if password == None:

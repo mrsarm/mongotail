@@ -27,7 +27,7 @@ from __future__ import absolute_import
 import sys, re, argparse
 from .conn import connect
 from .out import print_obj
-from .err import error, error_parsing
+from .err import error, error_parsing, EINTR, EDESTADDRREQ
 from pymongo.read_preferences import ReadPreference
 
 from . import __version__, __license__, __doc__, __url__, __usage__
@@ -68,7 +68,7 @@ def show_profiling_level(client, db):
         level = db.profiling_level()
         sys.stdout.write("Profiling level currently in level %s\n" % level)
     except Exception as e:
-        error('Error trying to get profiling level. %s' % e, -6)
+        error('Error trying to get profiling level. %s' % e, EINTR)
 
 
 def set_profiling_level(client, db, level):
@@ -77,7 +77,7 @@ def set_profiling_level(client, db, level):
         sys.stdout.write("Profiling level set to level %s\n" % level)
     except Exception as e:
         err = str(e).replace("OFF", "0").replace("SLOW_ONLY", "1").replace("ALL", "2")
-        error('Error configuring profiling level to "%s". %s' % (level, err), -7)
+        error('Error configuring profiling level to "%s". %s' % (level, err), EINTR)
 
 
 def set_slowms_level(client, db, slowms):
@@ -86,7 +86,7 @@ def set_slowms_level(client, db, slowms):
         db.set_profiling_level(profiling_level, int(slowms))
         sys.stdout.write("Threshold profiling set to %s milliseconds\n" % slowms)
     except Exception as e:
-        error('Error configuring threshold profiling in "%s" milliseconds. %s' % (slowms, str(e)), -8)
+        error('Error configuring threshold profiling in "%s" milliseconds. %s' % (slowms, str(e)), EINTR)
 
 
 def show_slowms_level(client, db):
@@ -94,7 +94,7 @@ def show_slowms_level(client, db):
         level = db.command("profile", -1, read_preference=ReadPreference.PRIMARY)
         sys.stdout.write("Threshold profiling currently in %s milliseconds\n" % level['slowms'])
     except Exception as e:
-        error('Error trying to get threshold profiling level. %s' % e, -6)
+        error('Error trying to get threshold profiling level. %s' % e, EINTR)
 
 
 def main():
@@ -125,7 +125,7 @@ def main():
         if address and len(address) and address[0] == sys.argv[1]:
             address = address[0]
         elif len(address) == 0:
-            error_parsing("db address expected")
+            error("db address expected", EDESTADDRREQ)
         else:
             error_parsing()
         if address.startswith("-"):
