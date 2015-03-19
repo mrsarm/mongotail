@@ -98,7 +98,7 @@ You can install the latest stable version with ``pip`` in your environment with:
 
     $ pip install mongotail
 
-Execute these command with administrator/root privileges.
+Execute this command with administrator/root privileges.
 
 You have to be installed ``pip`` tool first. In Debian/Ubuntu Linux
 distribution you can install it with (also with root privileges)::

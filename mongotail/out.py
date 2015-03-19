@@ -53,17 +53,21 @@ def print_obj(obj):
             elif operation == 'remove':
                 query += '. %s deleted.' % obj['ndeleted']
         elif operation == "command":
-            query = json_encoder.encode(obj['command']['query'])
             if 'count' in obj["command"]:
                 doc = obj["command"]["count"]
                 operation = "count"
+                query = json_encoder.encode(obj['command']['query'])
+            elif 'aggregate' in obj["command"]:
+                doc = obj["command"]["aggregate"]
+                operation = "aggregate"
+                query = json_encoder.encode(obj['command']['pipeline'])
             else:
                 warn('Unknown command operation\nDump: %s' % json_encoder.encode(obj))
         else:
             warn('Unknown operation "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
 
         sys.stdout.write("%s %s [%s] : %s\n" % (ts_time.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
-                                                operation.upper().ljust(6), doc, query))
+                                                operation.upper().ljust(9), doc, query))
         sys.stdout.flush()  # Allows pipe the output during the execution with others tools like 'grep'
     except KeyError:
         warn('Unknown registry\nDump: %s' % json_encoder.encode(obj))

@@ -1,6 +1,12 @@
 Mongotail changelog
 ===================
 
+0.3.0
+-----
+
+* Added logging to "aggregate" queries.
+
+
 0.2.0
 -----
 
