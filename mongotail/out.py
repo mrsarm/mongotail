@@ -33,11 +33,11 @@ def print_obj(obj):
     Print the dict returned by a MongoDB Query in the standard output.
     """
     try:
-        #sys.stdout.write(">DEBUG> %s\n" % obj)
         ts_time = obj['ts']
         operation = obj['op']
-        doc = obj['ns'].split(".")[-1]
+        doc = None
         if operation in ('query', 'insert', 'remove', 'update'):
+            doc = obj['ns'].split(".")[-1]
             if 'query' in obj:
                 query = json_encoder.encode(obj['query'])
             else:
@@ -54,15 +54,51 @@ def print_obj(obj):
                 query += '. %s deleted.' % obj['ndeleted']
         elif operation == "command":
             if 'count' in obj["command"]:
-                doc = obj["command"]["count"]
                 operation = "count"
                 query = json_encoder.encode(obj['command']['query'])
             elif 'aggregate' in obj["command"]:
-                doc = obj["command"]["aggregate"]
                 operation = "aggregate"
                 query = json_encoder.encode(obj['command']['pipeline'])
+            elif 'distinct' in obj["command"]:
+                operation = "distinct"
+                query = json_encoder.encode(obj['command']['query'])
+                query = '"%s", %s' % (obj['command']['key'], query)
+            elif 'drop' in obj["command"]:
+                operation = "drop"
+                query = ""
+            elif 'findandmodify' in obj["command"]:
+                operation = "findandmodify"
+                query = "query: " + json_encoder.encode(obj['command']['query'])
+                if 'sort' in obj["command"]:
+                    query += ", sort: " + json_encoder.encode(obj['command']['sort'])
+                if 'update' in obj["command"]:
+                    query += ", update: " + json_encoder.encode(obj['command']['update'])
+                if 'remove' in obj["command"]:
+                    query += ", remove: " + str(obj['command']['remove']).lower()
+                if 'fields' in obj["command"]:
+                    query += ", fields: " + json_encoder.encode(obj['command']['fields'])
+                if 'upsert' in obj["command"]:
+                    query += ", upsert: " + str(obj['command']['upsert']).lower()
+                if 'new' in obj["command"]:
+                    query += ", new: " + str(obj['command']['new']).lower()
+            elif 'group' in obj["command"]:
+                operation = "group"
+                doc = obj["command"]['group']["ns"]
+                del obj["command"]['group']["ns"]
+                query = json_encoder.encode(obj['command']['group'])
+            elif 'map' in obj["command"]:
+                operation = "map"
+                doc = obj["command"]["mapreduce"]
+                del obj["command"]["mapreduce"]
+                mapFunc = min_script(obj['command']["map"])
+                del obj['command']["map"]
+                reduceFunc = min_script(obj['command']["reduce"])
+                del obj['command']["reduce"]
+                query = "{%s, %s, %s}" % (mapFunc, reduceFunc, json_encoder.encode(obj['command']))
             else:
                 warn('Unknown command operation\nDump: %s' % json_encoder.encode(obj))
+            if not doc:
+                doc = obj["command"][operation]
         else:
             warn('Unknown operation "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
 
@@ -71,3 +107,18 @@ def print_obj(obj):
         sys.stdout.flush()  # Allows pipe the output during the execution with others tools like 'grep'
     except KeyError:
         warn('Unknown registry\nDump: %s' % json_encoder.encode(obj))
+
+
+def min_script(js):
+    """
+    Minify script in a very insecure way.
+    """
+    if js:
+        return js.replace("\t", " ") \
+            .replace("                        ", " ") \
+            .replace("                    ", " ") \
+            .replace("                ", " ") \
+            .replace("            ", " ") \
+            .replace("        ", " ") \
+            .replace("    ", " ").replace("\n", " ")
+    return ""

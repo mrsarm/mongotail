@@ -4,7 +4,8 @@ Mongotail changelog
 0.3.0
 -----
 
-* Added logging to "aggregate" queries.
+* Added logging to "aggregate", "distinct", "findandmodify",
+  "map", "group" and "drop" queries.
 
 
 0.2.0
