@@ -1,6 +1,11 @@
 Mongotail changelog
 ===================
 
+0.3.1
+-----
+
+* Fixed "group" queries logging.
+
 0.3.0
 -----
 

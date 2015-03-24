@@ -84,17 +84,40 @@ def print_obj(obj):
             elif 'group' in obj["command"]:
                 operation = "group"
                 doc = obj["command"]['group']["ns"]
-                del obj["command"]['group']["ns"]
-                query = json_encoder.encode(obj['command']['group'])
+                if 'key' in obj['command']['group']:
+                    key = "key: " + json_encoder.encode(obj['command']['group']['key'])
+                else:
+                    key = None
+                if 'initial' in obj['command']['group']:
+                    initial = "initial: " + json_encoder.encode(obj['command']['group']['initial'])
+                else:
+                    initial = None
+                if 'cond' in obj['command']['group']:
+                    cond = "cond: " + json_encoder.encode(obj['command']['group']['cond'])
+                else:
+                    cond = None
+                if '$keyf' in obj['command']['group']:
+                    key_function = "keyf: " + min_script(obj['command']['group']['$keyf'])
+                else:
+                    key_function = None
+                if '$reduce' in obj['command']['group']:
+                    reduce_func = "reduce: " + min_script(obj['command']['group']['$reduce'])
+                else:
+                    reduce_func = None
+                if 'finalize' in obj['command']['group']:
+                    finalize_func = "finalize: " + min_script(obj['command']['group']['finalize'])
+                else:
+                    finalize_func = None
+                query = ", ".join(list(filter(lambda x: x, (key, reduce_func, initial, key_function, cond, finalize_func))))
             elif 'map' in obj["command"]:
                 operation = "map"
                 doc = obj["command"]["mapreduce"]
                 del obj["command"]["mapreduce"]
-                mapFunc = min_script(obj['command']["map"])
+                map_func = min_script(obj['command']["map"])
                 del obj['command']["map"]
-                reduceFunc = min_script(obj['command']["reduce"])
+                reduce_func = min_script(obj['command']["reduce"])
                 del obj['command']["reduce"]
-                query = "{%s, %s, %s}" % (mapFunc, reduceFunc, json_encoder.encode(obj['command']))
+                query = "{%s, %s, %s}" % (map_func, reduce_func, json_encoder.encode(obj['command']))
             else:
                 warn('Unknown command operation\nDump: %s' % json_encoder.encode(obj))
             if not doc:
