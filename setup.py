@@ -49,7 +49,6 @@ setup(
         ],
     },
     classifiers=[
-        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Customer Service',
         'License :: Public Domain',

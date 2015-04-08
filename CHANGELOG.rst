@@ -1,6 +1,12 @@
 Mongotail changelog
 ===================
 
+0.3.2
+-----
+
+* Added support to PyMongo 3.0+ due its incompatibility with previous
+  versions on some API calls.
+
 0.3.1
 -----
 

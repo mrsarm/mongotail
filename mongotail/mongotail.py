@@ -28,7 +28,9 @@ import sys, re, argparse
 from .conn import connect
 from .out import print_obj
 from .err import error, error_parsing, EINTR, EDESTADDRREQ
+from pymongo import get_version_string
 from pymongo.read_preferences import ReadPreference
+from pymongo.errors import ConnectionFailure
 
 from . import __version__, __license__, __doc__, __url__, __usage__
 
@@ -45,7 +47,12 @@ LOG_QUERY = {
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
 
 def tail(client, db, lines, follow):
-    cursor = db.system.profile.find(LOG_QUERY, fields=LOG_FIELDS)
+    if get_version_string() >= "3.0":
+        # From PyMongo 3.0 fields are passed to `find` function with the parameter `projection`
+        cursor = db.system.profile.find(LOG_QUERY, projection=LOG_FIELDS)
+    else:
+        # From PyMongo <= 2.8 fields are passed to `find` function with the parameter `fields`
+        cursor = db.system.profile.find(LOG_QUERY, fields=LOG_FIELDS)
     if lines.upper() != "ALL":
         try:
             skip = cursor.count() - int(lines)
@@ -149,6 +156,8 @@ def main():
             tail(client, db, args.n, args.follow)
     except KeyboardInterrupt:
         pass
+    except ConnectionFailure as e:
+        error("Error trying to authenticate: %s" % str(e), -3)
 
 if __name__ == "__main__":
     main()
