@@ -137,11 +137,11 @@ def min_script(js):
     Minify script in a very insecure way.
     """
     if js:
-        return js.replace("\t", " ") \
-            .replace("                        ", " ") \
-            .replace("                    ", " ") \
-            .replace("                ", " ") \
-            .replace("            ", " ") \
-            .replace("        ", " ") \
-            .replace("    ", " ").replace("\n", " ")
+        return js.replace("\n", " ")
+            #.replace("                        ", " ") \
+            #.replace("                    ", " ") \
+            #.replace("                ", " ") \
+            #.replace("            ", " ") \
+            #.replace("        ", " ") \
+            #.replace("    ", " ").replace("\t", " ")
     return ""

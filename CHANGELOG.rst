@@ -7,6 +7,7 @@ Mongotail changelog
 * Added support to PyMongo 3.0+ due its incompatibility with previous
   versions on some API calls.
 * When user press Ctrl+"C" now mongotail append a "\n" character to stdout.
+* Rollback how javascript code is trimmed.
 
 
 0.3.1
