@@ -155,7 +155,7 @@ def main():
         else:
             tail(client, db, args.n, args.follow)
     except KeyboardInterrupt:
-        pass
+        sys.stdout.write("\n")
     except ConnectionFailure as e:
         error("Error trying to authenticate: %s" % str(e), -3)
 
