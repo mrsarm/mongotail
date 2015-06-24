@@ -114,6 +114,10 @@ def main():
         parser.add_argument("-p", "--password", dest="password", default=None,
                             help="password for authentication. If username is given and password isn't,\
                                   it's asked from tty.")
+        parser.add_argument("-b", "--authenticationDatabase", dest="auth_database", default=None,
+                            help="database to use to authenticate the user. If not specified, the user "
+                                 "will be authenticated against the database specified in the db"
+                                 "address.")
         parser.add_argument("-n", "--lines", dest="n", default=str(DEFAULT_LIMIT),
                             help="output the last N lines, instead of the last 10. Use ALL value to show all lines")
         parser.add_argument("-f", "--follow", dest="follow", action="store_true", default=False,
@@ -139,7 +143,7 @@ def main():
             error_parsing()
 
         # Getting connection
-        client, db = connect(address, args.username, args.password)
+        client, db = connect(address, args.username, args.password, args.auth_database)
 
         # Execute command
         if args.level:
