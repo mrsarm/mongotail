@@ -44,6 +44,10 @@ Optional arguments:
 -p PASSWORD, --password PASSWORD
                       password for authentication. If username is given and
                       password isn't, it's asked from tty.
+-b AUTH_DATABASE, --authenticationDatabase AUTH_DATABASE
+                      database to use to authenticate the user. If not
+                      specified, the user will be authenticated against the
+                      database specified in the dbaddress.
 -n N, --lines N       output the last N lines, instead of the last 10. Use
                       ALL value to show all lines
 -f, --follow          output appended data as the log grows
