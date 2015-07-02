@@ -52,6 +52,10 @@ def print_obj(obj):
                 query += '%s inserted.' % obj['ninserted']
             elif operation == 'remove':
                 query += '. %s deleted.' % obj['ndeleted']
+                query += '. %s deleted.' % obj['ndeleted']
+	    elif operation == "killcursors":
+	        operation = "killcursors"
+	        query = None
         elif operation == "command":
             if 'count' in obj["command"]:
                 operation = "count"
