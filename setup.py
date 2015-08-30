@@ -50,7 +50,8 @@ setup(
     },
     classifiers=[
         'Environment :: Console',
-        'Intended Audience :: Customer Service',
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
         'License :: Public Domain',
         'License :: OSI Approved :: GNU General Public License (GPL)',
         'Operating System :: OS Independent',
