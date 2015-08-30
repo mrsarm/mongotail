@@ -2,3 +2,4 @@ include COPYING
 include README.rst
 include INSTALL.rst
 include CHANGELOG.rst
+AUTHORS.rst
