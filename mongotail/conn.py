@@ -69,7 +69,7 @@ def get_host_port_db(address):
     return host, port, dbname
 
 
-def connect(address, username=None, password=None):
+def connect(address, username=None, password=None, auth_database=None):
     """
     Connect with `address`, and return a tuple with a :class:`~pymongo.MongoClient`,
     and a :class:`~pymongo.database.Database` object.
@@ -77,6 +77,8 @@ def connect(address, username=None, password=None):
     :param username: username for authentication (optional)
     :param password: password for authentication. If username is given and password isn't,
     it's asked from tty.
+    :param auth_database: authenticate the username and password against that database (optional).
+    If not specified, the database speficied in address will be used.
     :return: a tuple with ``(client, db)``
     """
     host,  port, dbname = get_host_port_db(address)
@@ -84,12 +86,16 @@ def connect(address, username=None, password=None):
         client = MongoClient(host=host, port=port)
     except Exception as e:
         error("Error trying to connect: %s" % str(e), ECONNREFUSED)
-    db = client[dbname]
+
     if username:
         if password == None:
             password = getpass.getpass()
+        if auth_database is None:
+            auth_database = dbname
         try:
-            db.authenticate(username, password, mechanism='MONGODB-CR')
+            auth_db = client[auth_database]
+            auth_db.authenticate(username, password, mechanism='MONGODB-CR')
         except Exception as e:
             error("Error trying to authenticate: %s" % str(e), -3)
+    db = client[dbname]
     return client, db
