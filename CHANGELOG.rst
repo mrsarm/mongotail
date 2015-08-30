@@ -1,6 +1,15 @@
 Mongotail changelog
 ===================
 
+
+1.0.0
+-----
+
+* Added support for authentication against another database with
+  ``--authenticationDatabase`` option.
+* Fixed unknown operation "killcursors" output.
+
+
 0.3.2
 -----
 

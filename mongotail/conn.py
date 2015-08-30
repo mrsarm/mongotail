@@ -78,7 +78,7 @@ def connect(address, username=None, password=None, auth_database=None):
     :param password: password for authentication. If username is given and password isn't,
     it's asked from tty.
     :param auth_database: authenticate the username and password against that database (optional).
-    If not specified, the database speficied in address will be used.
+    If not specified, the database specified in address will be used.
     :return: a tuple with ``(client, db)``
     """
     host,  port, dbname = get_host_port_db(address)
