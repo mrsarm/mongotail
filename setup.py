@@ -41,7 +41,7 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'pymongo',
+        'pymongo>=2.8',
     ],
     entry_points = {
         'console_scripts': [

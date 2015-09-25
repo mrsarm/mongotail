@@ -88,13 +88,13 @@ def connect(address, username=None, password=None, auth_database=None):
         error("Error trying to connect: %s" % str(e), ECONNREFUSED)
 
     if username:
-        if password == None:
+        if password is None:
             password = getpass.getpass()
         if auth_database is None:
             auth_database = dbname
         try:
             auth_db = client[auth_database]
-            auth_db.authenticate(username, password, mechanism='MONGODB-CR')
+            auth_db.authenticate(username, password)
         except Exception as e:
             error("Error trying to authenticate: %s" % str(e), -3)
     db = client[dbname]

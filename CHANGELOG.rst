@@ -2,6 +2,13 @@ Mongotail changelog
 ===================
 
 
+1.0.1
+-----
+
+* Fixed authentication default mechanism error in MongoDB 3.0
+  when user and password are used.
+
+
 1.0.0
 -----
 
