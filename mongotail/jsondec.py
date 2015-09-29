@@ -25,6 +25,7 @@
 import re, json
 from bson import ObjectId, DBRef, regex
 from datetime import datetime
+from uuid import UUID
 
 REGEX_TYPE = type(re.compile(""))
 
@@ -33,6 +34,8 @@ class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
             return "ObjectId(%sObjectId)" % str(o)
+        if isinstance(o, UUID): 
+            return str(o)
         if isinstance(o, DBRef):
             return "DBRef(Field(%sField), ObjectId(%sObjectId)DBRef)" % (o.collection, str(o.id))
         if isinstance(o, datetime):
