@@ -39,7 +39,7 @@ class JSONEncoder(json.JSONEncoder):
         if isinstance(o, DBRef):
             return "DBRef(Field(%sField), ObjectId(%sObjectId)DBRef)" % (o.collection, str(o.id))
         if isinstance(o, datetime):
-            return "ISODate(" + o.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "ZISODate)"
+            return "ISODate(" + o.isoformat()[:-3] + "ZISODate)"
         if isinstance(o, (REGEX_TYPE, regex.Regex)):
             return {"$regex": o.pattern}
         return json.JSONEncoder.default(self, o)

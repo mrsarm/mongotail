@@ -5,7 +5,8 @@ Mongotail changelog
 1.1.0
 -----
 
-* Added support to "UUID" data type.
+* Added support to ``UUID`` data type.
+* Fixed formatting error of ``ISODate`` data type when year < 1900 in Python 2.7.
 
 
 1.0.1
