@@ -2,6 +2,12 @@ Mongotail changelog
 ===================
 
 
+1.1.0
+-----
+
+* Added support to "UUID" data type.
+
+
 1.0.1
 -----
 

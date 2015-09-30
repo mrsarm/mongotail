@@ -35,7 +35,7 @@ class JSONEncoder(json.JSONEncoder):
         if isinstance(o, ObjectId):
             return "ObjectId(%sObjectId)" % str(o)
         if isinstance(o, UUID): 
-            return str(o)
+            return "UUID(%sUUID)" % str(o)
         if isinstance(o, DBRef):
             return "DBRef(Field(%sField), ObjectId(%sObjectId)DBRef)" % (o.collection, str(o.id))
         if isinstance(o, datetime):
@@ -56,4 +56,6 @@ class JSONEncoder(json.JSONEncoder):
         result = result.replace("DBRef)\"", ')')
         result = result.replace("\"ISODate(", "ISODate(\"")
         result = result.replace("ISODate)\"", "\")")
+        result = result.replace("\"UUID(", "UUID(\"")
+        result = result.replace("UUID)\"", "\")")
         return result
