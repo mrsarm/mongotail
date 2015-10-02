@@ -40,9 +40,10 @@ LOG_QUERY = {
         "command.profile": {"$exists": False},
         "command.collStats": {"$exists": False},
         "command.collstats": {"$exists": False},
+        "command.createIndexes": {"$exists": False},
         "command.dbstats": {"$exists": False},
         "command.count": {"$ne": "system.profile"},
-        "op": {"$ne":"getmore"},
+        "op": re.compile(r"^((?!(getmore|killcursors)).)"),
 }
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
 

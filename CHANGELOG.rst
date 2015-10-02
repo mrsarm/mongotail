@@ -7,6 +7,8 @@ Mongotail changelog
 
 * Added support to ``UUID`` data type.
 * Fixed formatting error of ``ISODate`` data type when year < 1900 in Python 2.7.
+* Fixed unknown operation "createIndexes" output.
+* Fixed undesirable operations filters.
 
 
 1.0.1
