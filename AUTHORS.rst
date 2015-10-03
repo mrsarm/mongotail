@@ -15,3 +15,4 @@ People who have submitted patches and reported bugs:
 * Alexander Nestorov (https://github.com/alexandernst)
 * Chris McKee (https://github.com/ChrisMcKee)
 * kengruven (https://github.com/kengruven)
+* Alex Kucherenko (https://github.com/AlexTiTanium)
