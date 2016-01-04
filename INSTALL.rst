@@ -5,7 +5,7 @@ Prerequisites
 -------------
 
 * Python 2.6+ or Python 3.3+ (only tested with 2.7 and 3.4)
-* PyMongo (only tested with versions 2.8 and 3.0)
+* PyMongo (tested with versions 2.8, 3.0 and 3.2)
 
 
 Installation
