@@ -131,8 +131,11 @@ def main():
                             help="Sets the threshold in milliseconds for the profile to consider a query "
                                  "or operation to be slow (use with `--level 1`). Or use with 'status' word "
                                  "to show the current milliseconds configured. ")
+    	parser.add_argument("--ssl", action="store_true", default=False, help = "Use this option to indicate client to use SSL connection to mongodb server")
         parser.add_argument('--version', action='version', version='%(prog)s ' + __version__ + "\n<" + __url__ + ">")
+
         args, address = parser.parse_known_args()
+
         if address and len(address) and address[0] == sys.argv[1]:
             address = address[0]
         elif len(address) == 0:
@@ -143,7 +146,7 @@ def main():
             error_parsing()
 
         # Getting connection
-        client, db = connect(address, args.username, args.password, args.auth_database)
+        client, db = connect(address, args)
 
         # Execute command
         if args.level:
