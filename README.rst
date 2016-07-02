@@ -62,6 +62,7 @@ Optional arguments:
                       `--level 1`). Or use with 'status' word to show the
                       current milliseconds configured.
 -h, --help            show this help message and exit
+--ssl		      add ssl: True option to connect to mongo db.
 --version             show program's version number and exit
 
 
