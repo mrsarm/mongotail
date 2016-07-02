@@ -87,7 +87,7 @@ def connect(address, args):
         options = {}
 	    
         
-	    #if ssl is enabled, add ssl: True to the options and pass it as kwargs to MongoClient. 
+	#if ssl is enabled, add ssl: True to the options and pass it as kwargs to MongoClient. 
 	    
         if args.ssl:
             options["ssl"] = True
