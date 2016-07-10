@@ -61,8 +61,11 @@ Optional arguments:
                       consider a query or operation to be slow (use with
                       `--level 1`). Or use with 'status' word to show the
                       current milliseconds configured.
+-m, --metadata        extra metadata fields to show. Know fields (may vary
+                      depending of the operation and the MongoDB version):
+                      millis, nscanned, docsExamined, execStats, lockStats ...
 -i, --info            get information about the MongoDB server we're connected to
--v", --verbose        verbose mode (not recommended). All the operations will
+-v, --verbose         verbose mode (not recommended). All the operations will
                       printed in raw JSON without format and with all the
                       information available from the log
 -h, --help            show this help message and exit
