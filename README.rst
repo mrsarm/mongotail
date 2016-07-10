@@ -52,16 +52,19 @@ Optional arguments:
                       ALL value to show all lines
 -f, --follow          output appended data as the log grows
 -l LEVEL, --level LEVEL
-                      Specifies the profiling level, which is either 0 for
+                      specifies the profiling level, which is either 0 for
                       no profiling, 1 for only slow operations, or 2 for all
                       operations. Or use with 'status' word to show the
                       current level configured. Uses this option once before
                       logging the database
--s MS, --slowms MS    Sets the threshold in milliseconds for the profile to
+-s MS, --slowms MS    sets the threshold in milliseconds for the profile to
                       consider a query or operation to be slow (use with
                       `--level 1`). Or use with 'status' word to show the
                       current milliseconds configured.
--i, --info            Get information about the MongoDB server we're connected to
+-i, --info            get information about the MongoDB server we're connected to
+-v", --verbose        verbose mode (not recommended). All the operations will
+                      printed in raw JSON without format and with all the
+                      information available from the log
 -h, --help            show this help message and exit
 --version             show program's version number and exit
 

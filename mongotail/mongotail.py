@@ -48,13 +48,18 @@ LOG_QUERY = {
 
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
 
-def tail(client, db, lines, follow):
+
+def tail(client, db, lines, follow, verbose):
+    if verbose:
+        fields = None   # All fields
+    else:
+        fields = LOG_FIELDS
     if get_version_string() >= "3.0":
         # Since PyMongo 3.0 fields are passed to `find` function with the parameter `projection`
         cursor = db.system.profile.find(LOG_QUERY, projection=LOG_FIELDS)
     else:
         # Until PyMongo 2.8 fields are passed to `find` function with the parameter `fields`
-        cursor = db.system.profile.find(LOG_QUERY, fields=LOG_FIELDS)
+        cursor = db.system.profile.find(LOG_QUERY, fields=fields)
     if lines.upper() != "ALL":
         try:
             skip = cursor.count() - int(lines)
@@ -67,7 +72,7 @@ def tail(client, db, lines, follow):
     while cursor.alive:
         try:
             result = next(cursor)
-            print_obj(result)
+            print_obj(result, verbose)
         except StopIteration:
             pass
 
@@ -155,17 +160,20 @@ def main():
         parser.add_argument("-f", "--follow", dest="follow", action="store_true", default=False,
                             help="output appended data as the log grows")
         parser.add_argument("-l", "--level", dest="level", default=None,
-                            help="Specifies the profiling level, which is either 0 for no profiling, "
+                            help="specifies the profiling level, which is either 0 for no profiling, "
                                  "1 for only slow operations, or 2 for all operations. Or use with 'status' word "
                                  "to show the current level configured. "
                                  "Uses this option once before logging the database")
         parser.add_argument("-s", "--slowms", dest="ms", default=None,
-                            help="Sets the threshold in milliseconds for the profile to consider a query "
+                            help="sets the threshold in milliseconds for the profile to consider a query "
                                  "or operation to be slow (use with `--level 1`). Or use with 'status' word "
                                  "to show the current milliseconds configured. ")
         parser.add_argument("-i", "--info", dest="info", action="store_true", default=False,
-                            help="Get information about the MongoDB server we're connected to.")
-        parser.add_argument('--version', action='version', version='%(prog)s ' + __version__ + "\n<" + __url__ + ">")
+                            help="get information about the MongoDB server we're connected to.")
+        parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", default=False,
+                            help="verbose mode (not recommended). All the operations will printed in raw JSON without "
+                                 "format and with all the information available from the log")
+        parser.add_argument("-V", "--version", action="version", version="%(prog)s " + __version__ + "\n<" + __url__ + ">")
         args, address = parser.parse_known_args()
         if address and len(address) and address[0] == sys.argv[1]:
             address = address[0]
@@ -193,7 +201,7 @@ def main():
         elif args.info:
             show_server_info(client, db)
         else:
-            tail(client, db, args.n, args.follow)
+            tail(client, db, args.n, args.follow, args.verbose)
     except KeyboardInterrupt:
         sys.stdout.write("\n")
     except ConnectionFailure as e:
