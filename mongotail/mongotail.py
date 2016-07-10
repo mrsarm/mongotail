@@ -56,7 +56,7 @@ def tail(client, db, lines, follow, verbose):
         fields = LOG_FIELDS
     if get_version_string() >= "3.0":
         # Since PyMongo 3.0 fields are passed to `find` function with the parameter `projection`
-        cursor = db.system.profile.find(LOG_QUERY, projection=LOG_FIELDS)
+        cursor = db.system.profile.find(LOG_QUERY, projection=fields)
     else:
         # Until PyMongo 2.8 fields are passed to `find` function with the parameter `fields`
         cursor = db.system.profile.find(LOG_QUERY, fields=fields)
