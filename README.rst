@@ -61,6 +61,7 @@ Optional arguments:
                       consider a query or operation to be slow (use with
                       `--level 1`). Or use with 'status' word to show the
                       current milliseconds configured.
+-i, --info            Get information about the MongoDB server we're connected to
 -h, --help            show this help message and exit
 --version             show program's version number and exit
 
