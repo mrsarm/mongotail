@@ -31,7 +31,7 @@ from .err import warn
 json_encoder = JSONEncoder()
 
 
-def print_obj(obj, verbose):
+def print_obj(obj, verbose, mongo_version):
     """
     Print the dict returned by a MongoDB Query in the standard output.
     """
@@ -43,20 +43,32 @@ def print_obj(obj, verbose):
             ts_time = obj['ts']
             operation = obj['op']
             doc = None
-            if operation in ('query', 'insert', 'remove', 'update'):
-                doc = obj['ns'].split(".")[-1]
-                if 'query' in obj:
-                    query = json_encoder.encode(obj['query'])
+            if operation == 'query':
+                if mongo_version < "3.2":
+                    doc = obj['ns'].split(".")[-1]
+                    query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
                 else:
-                    query = ""
-                if operation == 'update':
-                    if 'updateobj' in obj:
-                        query += ' -> ' + json_encoder.encode(obj['updateobj'])
-                        query += '. %s updated.' % obj['nMatched']
-                elif operation == 'insert':
-                    query += '. %s inserted.' % obj['ninserted']
-                elif operation == 'remove':
-                    query += '. %s deleted.' % obj['ndeleted']
+                    doc = obj['query']['find']
+                    query = json_encoder.encode(obj['query']['filter']) if 'filter' in obj['query'] else "{}"
+                query += '. %s returned.' % obj['nreturned']
+            elif operation == 'update':
+                doc = obj['ns'].split(".")[-1]
+                query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
+                if 'updateobj' in obj:
+                    query += ', ' + json_encoder.encode(obj['updateobj'])
+                    query += '. %s updated.' % obj['nMatched']
+            elif operation == 'insert':
+                if mongo_version < "3.2":
+                    doc = obj['ns'].split(".")[-1]
+                    query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
+                else:
+                    doc = obj['query']['insert']
+                    query = json_encoder.encode(obj['query']['documents']) if 'documents' in obj['query'] else "{}"
+                query += '. %s inserted.' % obj['ninserted']
+            elif operation == 'remove':
+                doc = obj['ns'].split(".")[-1]
+                query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
+                query += '. %s deleted.' % obj['ndeleted']
             elif operation == "command":
                 if 'count' in obj["command"]:
                     operation = "count"

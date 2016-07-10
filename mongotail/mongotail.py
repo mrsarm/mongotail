@@ -46,7 +46,7 @@ LOG_QUERY = {
         "op": re.compile(r"^((?!(getmore|killcursors)).)"),
 }
 
-LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
+LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched', 'nreturned']
 
 
 def tail(client, db, lines, follow, verbose):
@@ -72,7 +72,7 @@ def tail(client, db, lines, follow, verbose):
     while cursor.alive:
         try:
             result = next(cursor)
-            print_obj(result, verbose)
+            print_obj(result, verbose, client.server_info()['version'])
         except StopIteration:
             pass
 
