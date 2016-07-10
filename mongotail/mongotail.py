@@ -45,14 +45,15 @@ LOG_QUERY = {
         "command.count": {"$ne": "system.profile"},
         "op": re.compile(r"^((?!(getmore|killcursors)).)"),
 }
+
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
 
 def tail(client, db, lines, follow):
     if get_version_string() >= "3.0":
-        # From PyMongo 3.0 fields are passed to `find` function with the parameter `projection`
+        # Since PyMongo 3.0 fields are passed to `find` function with the parameter `projection`
         cursor = db.system.profile.find(LOG_QUERY, projection=LOG_FIELDS)
     else:
-        # From PyMongo <= 2.8 fields are passed to `find` function with the parameter `fields`
+        # Until PyMongo 2.8 fields are passed to `find` function with the parameter `fields`
         cursor = db.system.profile.find(LOG_QUERY, fields=LOG_FIELDS)
     if lines.upper() != "ALL":
         try:
@@ -104,6 +105,37 @@ def show_slowms_level(client, db):
     except Exception as e:
         error('Error trying to get threshold profiling level. %s' % e, EINTR)
 
+def show_server_info(client, db):
+    try:
+        info = client.server_info()
+        out = ""
+        if 'version' in info:
+            out += "Version: %s\n" % info['version']
+        if 'buildEnvironment' in info:
+            if 'target_arch' in info['buildEnvironment']:
+                out += "Distribution: %s\n" % info['buildEnvironment']['target_arch']
+            if 'target_os' in info['buildEnvironment']:
+                out += "Target OS: %s\n" % info['buildEnvironment']['target_os']
+        elif 'bits' in info:
+            out += "Distribution: "
+            if info['bits'] == 64:
+                out += "x86_64\n"
+            elif info['bits'] == 32:
+                out += "x86\n"
+            else:
+                out += "%s bits\n" % info['bits']
+        if 'openssl' in info and 'running' in info['openssl']:
+            out += "OpenSSL running: %s\n" % info['openssl']['running']
+        if 'maxBsonObjectSize' in info:
+            out += "Max BSON Object Size: %s\n" % info['maxBsonObjectSize']
+        if 'debug' in info:
+            out += "Debug: %s\n" % str(info['debug'])
+        if 'javascriptEngine' in info:
+            out += "Javascript Engine: %s\n" % info['javascriptEngine']
+        sys.stdout.write(out)
+    except Exception as e:
+        error('Error trying to get server info. %s' % e, EINTR)
+
 
 def main():
     try:
@@ -131,6 +163,8 @@ def main():
                             help="Sets the threshold in milliseconds for the profile to consider a query "
                                  "or operation to be slow (use with `--level 1`). Or use with 'status' word "
                                  "to show the current milliseconds configured. ")
+        parser.add_argument("-i", "--info", dest="info", action="store_true", default=False,
+                            help="Get information about the MongoDB server we're connected to.")
         parser.add_argument('--version', action='version', version='%(prog)s ' + __version__ + "\n<" + __url__ + ">")
         args, address = parser.parse_known_args()
         if address and len(address) and address[0] == sys.argv[1]:
@@ -156,6 +190,8 @@ def main():
                 show_slowms_level(client, db)
             else:
                 set_slowms_level(client, db, args.ms)
+        elif args.info:
+            show_server_info(client, db)
         else:
             tail(client, db, args.n, args.follow)
     except KeyboardInterrupt:
