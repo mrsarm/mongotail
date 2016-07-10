@@ -31,7 +31,7 @@ from .err import warn
 json_encoder = JSONEncoder()
 
 
-def print_obj(obj, verbose, mongo_version):
+def print_obj(obj, verbose, metadata, mongo_version):
     """
     Print the dict returned by a MongoDB Query in the standard output.
     """
@@ -141,6 +141,23 @@ def print_obj(obj, verbose, mongo_version):
                     doc = obj["command"][operation]
             else:
                 warn('Unknown operation "%s"\nDump: %s' % (operation, json_encoder.encode(obj)))
+
+            if metadata:
+                met = []
+                for m in metadata:
+                    if m in obj:
+                        q = m + ": "
+                        if isinstance(obj[m], str):
+                            q += '"%s"' % obj[m]
+                        elif isinstance(obj[m], dict):
+                            q += json_encoder.encode(obj[m])
+                        else:
+                            q += str(obj[m])
+                        met.append(q)
+                if met:
+                    if not query.endswith("."): query += ". "
+                    if not query.endswith(" "): query += " "
+                    query += ", ".join(met)
 
             sys.stdout.write("%s %s [%s] : %s\n" % (ts_time.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
                                                     operation.upper().ljust(9), doc, query))

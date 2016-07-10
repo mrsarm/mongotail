@@ -49,9 +49,11 @@ LOG_QUERY = {
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched', 'nreturned']
 
 
-def tail(client, db, lines, follow, verbose):
+def tail(client, db, lines, follow, verbose, metadata):
     if verbose:
         fields = None   # All fields
+    elif metadata:
+        fields = LOG_FIELDS + metadata
     else:
         fields = LOG_FIELDS
     if get_version_string() >= "3.0":
@@ -72,7 +74,7 @@ def tail(client, db, lines, follow, verbose):
     while cursor.alive:
         try:
             result = next(cursor)
-            print_obj(result, verbose, client.server_info()['version'])
+            print_obj(result, verbose, metadata, client.server_info()['version'])
         except StopIteration:
             pass
 
@@ -168,6 +170,10 @@ def main():
                             help="sets the threshold in milliseconds for the profile to consider a query "
                                  "or operation to be slow (use with `--level 1`). Or use with 'status' word "
                                  "to show the current milliseconds configured. ")
+        parser.add_argument("-m","--metadata", nargs="*",
+                            help="extra metadata fields to show. "
+                                 "Know fields (may vary depending of the operation and the MongoDB version): "
+                                 "millis, nscanned, docsExamined, execStats, lockStats ...")
         parser.add_argument("-i", "--info", dest="info", action="store_true", default=False,
                             help="get information about the MongoDB server we're connected to.")
         parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", default=False,
@@ -201,7 +207,7 @@ def main():
         elif args.info:
             show_server_info(client, db)
         else:
-            tail(client, db, args.n, args.follow, args.verbose)
+            tail(client, db, args.n, args.follow, args.verbose, args.metadata)
     except KeyboardInterrupt:
         sys.stdout.write("\n")
     except ConnectionFailure as e:
