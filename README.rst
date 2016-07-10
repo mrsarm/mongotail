@@ -123,4 +123,6 @@ Project: https://github.com/mrsarm/mongotail
 
 Authors: (2015) Mariano Ruiz <mrsarm@gmail.cm>
 
+Changelog: `<CHANGELOG.rst>`_
+
 License: GPL-3
