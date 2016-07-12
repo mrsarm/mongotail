@@ -85,12 +85,17 @@ def connect(address, args):
     try:
         
         options = {}
-	    
         
-	#if ssl is enabled, add ssl: True to the options and pass it as kwargs to MongoClient. 
-	    
+	    #if ssl is enabled, add ssl: True to the options and pass it as kwargs to MongoClient. 
         if args.ssl:
             options["ssl"] = True
+
+        if (args.ssl_cert_file or args.ssl_key_file or args.ssl_cert_reqs or args.ssl_ca_certs):
+            options["ssl"] = True
+            options["ssl_cert"] = args.ssl_cert_file
+            options["ssl_keyfile"] = args.ssl_key_file
+            options["ssl_cert_reqs"] = args.ssl_cert_reqs
+            options["ssl_ca_certs"] = args.ssl_ca_certs
 
         client = MongoClient(host=host, port=port, **options)
     except Exception as e:
