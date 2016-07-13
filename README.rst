@@ -62,7 +62,26 @@ Optional arguments:
                       `--level 1`). Or use with 'status' word to show the
                       current milliseconds configured.
 -h, --help            show this help message and exit
---ssl		      add ssl: True option to connect to mongo db.
+--ssl		          add ssl: True option to connect to mongo db.
+--ssl_certfile        The certificate file used to identify the local connection against mongod. 
+                      Requires --ssl argument.
+--ssl_keyfile         The private keyfile used to identify the local connection against mongod. 
+                      If included with the certfile then only the ssl_certfile is needed. 
+                      Requires --ssl argument.
+--ssl_cert_reqs       Specifies whether a certificate is required from the other side of the connection, 
+                      and whether it will be validated if provided. It must be any of three values: 
+                      0 (certificate_ignored), 
+                      1 (not required, but validated if provided), 
+                      2 (required and validated). 
+                      Requires --ssl argument.
+--ssl_ca_certs        The ca_certs file contains a set of concatenated “certification authority” certificates, 
+                      which are used to validate certificates passed from the other end of the connection.
+                      Requires --ssl argument.
+--ssl_pem_passphrase  The password or passphrase for decrypting the private key in ssl_certfile or ssl_keyfile. 
+                      Only necessary if the private key is encrypted.
+                      Requires --ssl argument.
+--ssl_crlfile         The path to a PEM or DER formatted certificate revocation list.
+                      Requires --ssl argument.
 --version             show program's version number and exit
 
 

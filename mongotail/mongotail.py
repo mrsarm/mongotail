@@ -133,8 +133,8 @@ def main():
                                  "to show the current milliseconds configured. ")
     	#Refer ssl configuration parameters in https://api.mongodb.com/python/current/api/pymongo/mongo_client.html#pymongo.mongo_client.MongoClient for more info.
     	parser.add_argument("--ssl", action="store_true", default=False, help = "Use this option to indicate client to use SSL connection to mongodb server")
-        parser.add_argument("--ssl_certfile", dest="ssl_cert_file", default=None, help = "The certificate file used to identify the local connection against mongod. Implies ssl=True. Defaults to None")
-        parser.add_argument("--ssl_keyfile", dest="ssl_key_file", default=None, help = "The private keyfile used to identify the local connection against mongod. If included with the certfile then only the ssl_certfile is needed. Implies ssl=True. Defaults to None")
+        parser.add_argument("--ssl_certfile", dest="ssl_cert_file", default=None, help = "The certificate file used to identify the local connection against mongod. Defaults to None")
+        parser.add_argument("--ssl_keyfile", dest="ssl_key_file", default=None, help = "The private keyfile used to identify the local connection against mongod. If included with the certfile then only the ssl_certfile is needed. Defaults to None")
         parser.add_argument("--ssl_cert_reqs", dest="ssl_cert_reqs", default=0,
                              help="Specifies whether a certificate is required from the other side of the connection, and whether it will be "
                                  " validated if provided. It must be any of three values: 0 (certificate_ignored), 1 (not required, but validated if provided), "
