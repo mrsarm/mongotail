@@ -112,6 +112,7 @@ Then you can see the latest lines of logging with::
     2015-02-24 19:17:10.729 COUNT  [User] : {"active": {"$exists": true}, "firstName": {"$regex": "mac"}}
     ...
 
+To Connect to Mongo with SSL, check `mongotail --help` command
 
 **NOTE**: The level chosen can affect performance. It also can allow the
 server to write the contents of queries to the log, which might have
