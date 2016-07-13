@@ -66,7 +66,7 @@ Optional arguments:
 --ssl_certfile SSL_CERT_FILE_PATH    
                       The certificate file used to identify the local connection against mongod. 
                       Requires --ssl argument.
---ssl_keyfile  SSL_KEY_FILE_PATH      
+--ssl_keyfile SSL_KEY_FILE_PATH      
                       The private keyfile used to identify the local connection against mongod. 
                       If included with the certfile then only the ssl_certfile is needed. 
                       Requires --ssl argument.
@@ -77,11 +77,11 @@ Optional arguments:
                       1 (not required, but validated if provided), 
                       2 (required and validated). 
                       Requires --ssl argument.
---ssl_ca_certs  SSL_CA_CERTS_FILE_ATH        
+--ssl_ca_certs SSL_CA_CERTS_FILE_ATH        
                       The ca_certs file contains a set of concatenated “certification authority” certificates, 
                       which are used to validate certificates passed from the other end of the connection.
                       Requires --ssl argument.
---ssl_pem_passphrase  PASSPHRASE
+--ssl_pem_passphrase PASSPHRASE
                       The password or passphrase for decrypting the private key in ssl_certfile or ssl_keyfile. 
                       Only necessary if the private key is encrypted.
                       Requires --ssl argument.
