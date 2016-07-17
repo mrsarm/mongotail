@@ -43,11 +43,11 @@ Optional arguments:
                       username for authentication
 -p PASSWORD, --password PASSWORD
                       password for authentication. If username is given and
-                      password isn't, it's asked from tty.
+                      password isn't, it's asked from tty
 -b AUTH_DATABASE, --authenticationDatabase AUTH_DATABASE
                       database to use to authenticate the user. If not
                       specified, the user will be authenticated against the
-                      database specified in the [db address].
+                      database specified in the [db address]
 -n N, --lines N       output the last N lines, instead of the last 10. Use
                       ALL value to show all lines
 -f, --follow          output appended data as the log grows
@@ -60,13 +60,13 @@ Optional arguments:
 -s MS, --slowms MS    sets the threshold in milliseconds for the profile to
                       consider a query or operation to be slow (use with
                       `--level 1`). Or use with 'status' word to show the
-                      current milliseconds configured.
+                      current milliseconds configured
 -m, --metadata        extra metadata fields to show. Know fields (may vary
                       depending of the operation and the MongoDB version):
                       millis, nscanned, docsExamined, execStats, lockStats ...
 -i, --info            get information about the MongoDB server we're connected to
 -v, --verbose         verbose mode (not recommended). All the operations will
-                      printed in raw JSON without format and with all the
+                      printed in JSON without format and with all the
                       information available from the log
 -h, --help            show this help message and exit
 --version             show program's version number and exit
@@ -87,9 +87,9 @@ from MYDATABASE, first you have to execute this::
 Then you can see the latest lines of logging with::
 
     $ mongotail MYDATABASE
-    2015-02-24 19:17:01.194 QUERY  [Company] : {"_id": ObjectId("548b164144ae122dc430376b")}
-    2015-02-24 19:17:01.195 QUERY  [User] : {"_id": ObjectId("549048806b5d3db78cf6f654")}
-    2015-02-24 19:17:01.196 QUERY  [Company] : {"_id": ObjectId("548b16df44ae122dc4303771")}
+    2015-02-24 19:17:01.194 QUERY  [Company] : {"_id": ObjectId("548b164144ae122dc430376b")}. 1 returned.
+    2015-02-24 19:17:01.195 QUERY  [User] : {"_id": ObjectId("549048806b5d3db78cf6f654")}. 1 returned.
+    2015-02-24 19:17:01.196 UPDATE [Activation] : {"_id": "AB524"}, {"_id": "AB524", "code": "f2cbad0c"}. 1 updated.
     2015-02-24 19:17:10.729 COUNT  [User] : {"active": {"$exists": true}, "firstName": {"$regex": "mac"}}
     ...
 

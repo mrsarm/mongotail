@@ -7,11 +7,11 @@ Mongotail changelog
 
 * Added support to MongoDB 3.2 log format.
 * Added ``-m``, ``--metadata`` option to add extra metadata fields to show.
-* Added ``-v``, ``--verbose`` option to print all the operations in raw
+* Added ``-v``, ``--verbose`` option to print all the operations in
   JSON without format.
-* Added `-i`, `--info` option to get information about the server
+* Added ``-i``, ``--info`` option to get information about the server
   we're connected to.
-* Added flush calls after output to the stderr file.
+* Added flush calls after output to the ``stderr`` file.
 
 
 1.1.0

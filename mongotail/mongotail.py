@@ -153,10 +153,10 @@ def main():
                             help="username for authentication")
         parser.add_argument("-p", "--password", dest="password", default=None,
                             help="password for authentication. If username is given and password isn't,\
-                                  it's asked from tty.")
+                                  it's asked from tty")
         parser.add_argument("-b", "--authenticationDatabase", dest="auth_database", default=None,
                             help="database to use to authenticate the user. If not specified, the user "
-                                 "will be authenticated against the database specified in the [db address].")
+                                 "will be authenticated against the database specified in the [db address]")
         parser.add_argument("-n", "--lines", dest="n", default=str(DEFAULT_LIMIT),
                             help="output the last N lines, instead of the last 10. Use ALL value to show all lines")
         parser.add_argument("-f", "--follow", dest="follow", action="store_true", default=False,
@@ -169,15 +169,15 @@ def main():
         parser.add_argument("-s", "--slowms", dest="ms", default=None,
                             help="sets the threshold in milliseconds for the profile to consider a query "
                                  "or operation to be slow (use with `--level 1`). Or use with 'status' word "
-                                 "to show the current milliseconds configured. ")
+                                 "to show the current milliseconds configured")
         parser.add_argument("-m","--metadata", nargs="*",
                             help="extra metadata fields to show. "
                                  "Know fields (may vary depending of the operation and the MongoDB version): "
                                  "millis, nscanned, docsExamined, execStats, lockStats ...")
         parser.add_argument("-i", "--info", dest="info", action="store_true", default=False,
-                            help="get information about the MongoDB server we're connected to.")
+                            help="get information about the MongoDB server we're connected to")
         parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", default=False,
-                            help="verbose mode (not recommended). All the operations will printed in raw JSON without "
+                            help="verbose mode (not recommended). All the operations will printed in JSON without "
                                  "format and with all the information available from the log")
         parser.add_argument("-V", "--version", action="version", version="%(prog)s " + __version__ + "\n<" + __url__ + ">")
         args, address = parser.parse_known_args()
