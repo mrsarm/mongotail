@@ -65,6 +65,9 @@ def get_host_port_db(address):
                 except ValueError:
                     error_parsing('Invalid port number "%s"' % port)
     else:
+        if (address.startswith("[") and address.rfind("]") > address.rfind(":")) \
+                or ":" in address or "." in address:
+            error_parsing('No database name provided in "%s"' % address)
         dbname = address
     return host, port, dbname
 
@@ -84,11 +87,9 @@ def connect(address, args):
     :return: a tuple with ``(client, db)``
     """
     host,  port, dbname = get_host_port_db(address)
+
     try:
-        
         options = {}
-        
-	    #if ssl is enabled, add ssl: True to the options and pass it as kwargs to MongoClient. 
         if args.ssl:
             options["ssl"] = True
             options["ssl_certfile"] = args.ssl_cert_file

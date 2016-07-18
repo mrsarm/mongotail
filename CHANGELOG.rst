@@ -13,6 +13,7 @@ Mongotail changelog
 * Added ``-i``, ``--info`` option to get information about the server
   we're connected to.
 * Added flush calls after output to the ``stderr`` file.
+* Added more validations to db address parameter.
 
 
 1.1.0
