@@ -22,7 +22,7 @@
 ##############################################################################
 
 from __future__ import absolute_import
-import getpass
+import getpass, ssl
 from .err import error, error_parsing, ECONNREFUSED, EFAULT
 from pymongo import MongoClient
 
@@ -69,7 +69,7 @@ def get_host_port_db(address):
     return host, port, dbname
 
 
-def connect(address, username=None, password=None, auth_database=None):
+def connect(address, args):
     """
     Connect with `address`, and return a tuple with a :class:`~pymongo.MongoClient`,
     and a :class:`~pymongo.database.Database` object.
@@ -83,10 +83,25 @@ def connect(address, username=None, password=None, auth_database=None):
     """
     host,  port, dbname = get_host_port_db(address)
     try:
-        client = MongoClient(host=host, port=port)
+        
+        options = {}
+        
+	    #if ssl is enabled, add ssl: True to the options and pass it as kwargs to MongoClient. 
+        if args.ssl:
+            options["ssl"] = True
+            options["ssl_certfile"] = args.ssl_cert_file
+            options["ssl_keyfile"] = args.ssl_key_file
+            options["ssl_cert_reqs"] = args.ssl_cert_reqs
+            options["ssl_ca_certs"] = args.ssl_ca_certs
+
+        client = MongoClient(host=host, port=port, **options)
     except Exception as e:
         error("Error trying to connect: %s" % str(e), ECONNREFUSED)
-
+    
+    username = args.username
+    password = args.password
+    auth_database = args.auth_database
+    
     if username:
         if password is None:
             password = getpass.getpass()

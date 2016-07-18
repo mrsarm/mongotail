@@ -179,8 +179,22 @@ def main():
         parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", default=False,
                             help="verbose mode (not recommended). All the operations will printed in JSON without "
                                  "format and with all the information available from the log")
+    	parser.add_argument("--ssl", action="store_true", default=False, help = "Use this option to indicate client to use SSL connection to mongodb server")
+        parser.add_argument("--ssl_certfile", dest="ssl_cert_file", default=None, help = "The certificate file used to identify the local connection against mongod. Defaults to None")
+        parser.add_argument("--ssl_keyfile", dest="ssl_key_file", default=None, help = "The private keyfile used to identify the local connection against mongod. If included with the certfile then only the ssl_certfile is needed. Defaults to None")
+        parser.add_argument("--ssl_cert_reqs", dest="ssl_cert_reqs", default=0,
+                             help="Specifies whether a certificate is required from the other side of the connection, and whether it will be "
+                                 " validated if provided. It must be any of three values: 0 (certificate_ignored), 1 (not required, but validated if provided), "
+                                 " 2 (required and validated) ")
+        parser.add_argument("--ssl_ca_certs", dest="ssl_ca_certs", default=None,
+                              help="The ca_certs file contains a set of concatenated “certification authority” certificates, which are used to validate certificates passed from the other end of the connection")
+        parser.add_argument("--ssl_pem_passphrase", dest="ssl_pem_passphrase", default=None,
+                              help="The password or passphrase for decrypting the private key in ssl_certfile or ssl_keyfile. Only necessary if the private key is encrypted.")
+        parser.add_argument("--ssl_crlfile", dest="ssl_crlfile", default=None,
+                              help="The path to a PEM or DER formatted certificate revocation list.")
         parser.add_argument("-V", "--version", action="version", version="%(prog)s " + __version__ + "\n<" + __url__ + ">")
         args, address = parser.parse_known_args()
+
         if address and len(address) and address[0] == sys.argv[1]:
             address = address[0]
         elif len(address) == 0:
@@ -191,7 +205,7 @@ def main():
             error_parsing()
 
         # Getting connection
-        client, db = connect(address, args.username, args.password, args.auth_database)
+        client, db = connect(address, args)
 
         # Execute command
         if args.level:
