@@ -2,10 +2,11 @@ Mongotail changelog
 ===================
 
 
-1.2.0
+2.0.0
 -----
 
 * Added support to MongoDB 3.2 log format.
+* Added SSL connection support.
 * Added ``-m``, ``--metadata`` option to add extra metadata fields to show.
 * Added ``-v``, ``--verbose`` option to print all the operations in
   JSON without format.

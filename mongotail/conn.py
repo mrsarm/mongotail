@@ -74,11 +74,13 @@ def connect(address, args):
     Connect with `address`, and return a tuple with a :class:`~pymongo.MongoClient`,
     and a :class:`~pymongo.database.Database` object.
     :param address: a string representation with the db address
-    :param username: username for authentication (optional)
-    :param password: password for authentication. If username is given and password isn't,
-    it's asked from tty.
-    :param auth_database: authenticate the username and password against that database (optional).
-    If not specified, the database specified in address will be used.
+    :param args: connection arguments:
+    - username: username for authentication (optional)
+    - password: password for authentication. If username is given and password isn't,
+      it's asked from tty.
+    - auth_database: authenticate the username and password against that database (optional).
+      If not specified, the database specified in address will be used.
+    - ssl, ssl_certfile, ssl_keyfile, ssl_cert_reqs, ssl_ca_certs: SSL authentication options
     :return: a tuple with ``(client, db)``
     """
     host,  port, dbname = get_host_port_db(address)

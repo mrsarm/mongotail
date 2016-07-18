@@ -68,34 +68,34 @@ Optional arguments:
 -v, --verbose         verbose mode (not recommended). All the operations will
                       printed in JSON without format and with all the
                       information available from the log
+--ssl                 creates the connection to the server using SSL
+--sslCertFile SSL_CERT_FILE
+                      certificate file used to identify the local connection
+                      against MongoDB
+--sslKeyFile SSL_KEY_FILE
+                      private keyfile used to identify the local connection
+                      against MongoDB. If included with the certfile then
+                      only the sslCertFile is needed
+--sslCertReqs SSL_CERT_REQS
+                      specifies whether a certificate is required from the
+                      other side of the connection, and whether it will be
+                      validated if provided. It must be any of three values:
+                      0 (certificate ignored), 1 (not required, but
+                      validated if provided), 2 (required and validated)
+--sslCACerts SSL_CA_CERTS
+                      file that contains a set of concatenated
+                      "certification authority" certificates, which are used
+                      to validate certificates passed from the other end of
+                      the connection
+--sslPEMPassword SSL_PEM_PASSPHRASE
+                      password or passphrase for decrypting the private key
+                      in sslCertFile or sslKeyFile. Only necessary if the
+                      private key is encrypted
+--sslCrlFile SSL_CRLFILE
+                      path to a PEM or DER formatted certificate revocation
+                      list
 -h, --help            show this help message and exit
---ssl		          add ssl: True option to connect to mongo db.
---ssl_certfile SSL_CERT_FILE_PATH    
-                      The certificate file used to identify the local connection against mongod. 
-                      Requires --ssl argument.
---ssl_keyfile SSL_KEY_FILE_PATH      
-                      The private keyfile used to identify the local connection against mongod. 
-                      If included with the certfile then only the ssl_certfile is needed. 
-                      Requires --ssl argument.
---ssl_cert_reqs SSL_CERT_REQS_VALUE       
-                      Specifies whether a certificate is required from the other side of the connection, 
-                      and whether it will be validated if provided. It must be any of three values: 
-                      0 (certificate_ignored), 
-                      1 (not required, but validated if provided), 
-                      2 (required and validated). 
-                      Requires --ssl argument.
---ssl_ca_certs SSL_CA_CERTS_FILE_ATH        
-                      The ca_certs file contains a set of concatenated “certification authority” certificates, 
-                      which are used to validate certificates passed from the other end of the connection.
-                      Requires --ssl argument.
---ssl_pem_passphrase PASSPHRASE
-                      The password or passphrase for decrypting the private key in ssl_certfile or ssl_keyfile. 
-                      Only necessary if the private key is encrypted.
-                      Requires --ssl argument.
---ssl_crlfile SSL_CRL_FILE
-                      The path to a PEM or DER formatted certificate revocation list.
-                      Requires --ssl argument.
---version             show program's version number and exit
+-V, --version         show program's version number and exit
 
 
 Enabling Database Profiling and Showing Logs
@@ -119,7 +119,7 @@ Then you can see the latest lines of logging with::
     2015-02-24 19:17:10.729 COUNT  [User] : {"active": {"$exists": true}, "firstName": {"$regex": "mac"}}
     ...
 
-To Connect to Mongo with SSL, check the ssl arguments for the reference. You can find more help with ``mongotail --help`` command.
+To Connect with SSL or a remote Mongo instance, check the options with ``mongotail --help`` command.
 
 **NOTE**: The level chosen can affect performance. It also can allow the
 server to write the contents of queries to the log, which might have
