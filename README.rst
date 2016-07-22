@@ -132,18 +132,38 @@ database profiling level to ``0`` again after debugging your data::
 Installation
 ------------
 
-You can install the latest stable version with ``pip`` in your environment with::
+See `<INSTALL.rst>`_ guide to install from sources. To install
+from `PyPI repositories <https://pypi.python.org/pypi/mongotail>`_,
+follow these instructions depending of your OS:
+
+
+Linux Installation
+^^^^^^^^^^^^^^^^^^
+
+You can install the latest stable version with ``pip`` in your
+environment with::
 
     $ pip install mongotail
 
-Execute this command with administrator/root privileges.
+Execute this command with administrator/root privileges (in
+Debian/Ubuntu Linux distribution prepend ``sudo`` to the command).
 
 You have to be installed ``pip`` tool first. In Debian/Ubuntu Linux
 distribution you can install it with (also with root privileges)::
 
-    $ apt-get install python-pip python-dev
+    $ apt-get install python-pip
 
-See `<INSTALL.rst>`_ guide to install from sources.
+
+Mac OSX Installation
+^^^^^^^^^^^^^^^^^^^^
+
+First you need to install the Python package manager ``pip`` in
+your environment, and then like Linux to install Mongotail you
+can execute ``sudo pip install mongotail`` from the command line,
+but also it can be installed with ``easy_install``, an
+old Python package manager present in most OSX versions. Try this::
+
+    $ sudo easy_install mongotail
 
 
 About
@@ -151,7 +171,7 @@ About
 
 Project: https://github.com/mrsarm/mongotail
 
-Authors: (2015) Mariano Ruiz <mrsarm@gmail.cm>
+Authors: (2015-2016) Mariano Ruiz <mrsarm@gmail.cm>
 
 Changelog: `<CHANGELOG.rst>`_
 

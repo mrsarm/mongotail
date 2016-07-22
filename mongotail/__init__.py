@@ -33,4 +33,5 @@ db address can be:
   foo                   foo database on local machine (IPv4 connection)
   192.169.0.5/foo       foo database on 192.168.0.5 machine
   192.169.0.5:9999/foo  foo database on 192.168.0.5 machine on port 9999
+  remotehost/foo        foo database on remotehost machine
   "[::1]:9999/foo"      foo database on ::1 machine on port 9999 (IPv6 connection)"""
