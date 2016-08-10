@@ -145,7 +145,7 @@ def print_obj(obj, verbose, metadata, mongo_version):
             if metadata:
                 met = []
                 for m in metadata:
-                    if m in obj:
+                    if m in obj and obj[m] != {}:
                         q = m + ": "
                         if isinstance(obj[m], str):
                             q += '"%s"' % obj[m]
