@@ -2,6 +2,15 @@ Mongotail changelog
 ===================
 
 
+2.0.1
+-----
+
+* Fixed #12 Error when explore the database collections with MongoChef tool.
+* Fixed #13 Error "close failed in file object destructor..." after closing
+  `mongotail -f` piped with some other command.
+* Avoid output of empty metadata results.
+
+
 2.0.0
 -----
 
