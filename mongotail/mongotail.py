@@ -42,6 +42,7 @@ LOG_QUERY = {
         "command.collstats": {"$exists": False},
         "command.createIndexes": {"$exists": False},
         "command.dbstats": {"$exists": False},
+        "command.scale": {"$exists": False},
         "command.count": {"$ne": "system.profile"},
         "op": re.compile(r"^((?!(getmore|killcursors)).)"),
 }
@@ -172,7 +173,7 @@ def main():
                                  "to show the current milliseconds configured")
         parser.add_argument("-m","--metadata", nargs="*",
                             help="extra metadata fields to show. "
-                                 "Know fields (may vary depending of the operation and the MongoDB version): "
+                                 "Known fields (may vary depending of the operation and the MongoDB version): "
                                  "millis, nscanned, docsExamined, execStats, lockStats ...")
         parser.add_argument("-i", "--info", dest="info", action="store_true", default=False,
                             help="get information about the MongoDB server we're connected to")
