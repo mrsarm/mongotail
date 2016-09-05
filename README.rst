@@ -128,7 +128,7 @@ database profiling level to ``0`` again after debugging your data::
 
     $ mongotail MYDATABASE -l 0
 
-A _step by step_ guide of how to use Mongotail and the latest features
+A *step-by-step* guide of how to use Mongotail and the latest features
 is `here <http://mrsarm.blogspot.com.ar/2016/08/mongotail-2-0-with-new-features-mongodb-3-2-support.html>`_.
 
 
