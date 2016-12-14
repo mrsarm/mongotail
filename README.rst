@@ -168,6 +168,10 @@ old Python package manager present in most OSX versions. Try this::
 
     $ sudo easy_install mongotail
 
+Docker
+^^^^^^
+
+    $ docker run -it --rm fgribreau/mongotail --help
 
 About
 -----
