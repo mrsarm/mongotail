@@ -171,7 +171,7 @@ old Python package manager present in most OSX versions. Try this::
 Docker
 ^^^^^^
 
-    $ docker run -it --rm mongotail --help
+    $ docker run -it --rm fgribreau/mongotail --help
 
 About
 -----
