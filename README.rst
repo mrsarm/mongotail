@@ -180,7 +180,7 @@ If you want to connect with a database also running locally in a
 container, you have to link both instances (see howto in the Docker
 documentation), or if the db is a local instance running without
 Docker, remember to use the local IP of your computer because the
-`localhost` address (IP 127.0.0.1) points to the container, not to
+``localhost`` address (IP 127.0.0.1) points to the container, not to
 your host. Eg.::
 
     $ docker run -it --rm fgribreau/mongotail 192.168.0.21/test
