@@ -24,6 +24,10 @@
 
 import re, json
 from bson import ObjectId, DBRef, regex
+try:
+    from bson.decimal128 import Decimal128
+except ImportError:
+    pass
 from datetime import datetime
 from uuid import UUID
 
@@ -45,6 +49,8 @@ class JSONEncoder(json.JSONEncoder):
                 return "ISODate(" + o.isoformat()[:-3] + "ZISODate)"
         if isinstance(o, (REGEX_TYPE, regex.Regex)):
             return {"$regex": o.pattern}
+        if Decimal128 and isinstance(o, Decimal128):
+            return "NumberDecimal(" + str(o) + "NumberDecimal)"
         return json.JSONEncoder.default(self, o)
 
     def encode(self, o):
@@ -61,4 +67,6 @@ class JSONEncoder(json.JSONEncoder):
         result = result.replace("ISODate)\"", "\")")
         result = result.replace("\"UUID(", "UUID(\"")
         result = result.replace("UUID)\"", "\")")
+        result = result.replace("\"NumberDecimal(", "NumberDecimal(\"")
+        result = result.replace("NumberDecimal)\"", "\")")
         return result
