@@ -41,6 +41,7 @@ LOG_QUERY = {
         "command.collStats": {"$exists": False},
         "command.collstats": {"$exists": False},
         "command.createIndexes": {"$exists": False},
+        "command.listIndexes": {"$exists": False},
         "command.cursor": {"$exists": False},
         "command.create": {"$exists": False},
         "command.dbstats": {"$exists": False},
