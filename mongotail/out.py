@@ -50,6 +50,8 @@ def print_obj(obj, verbose, metadata, mongo_version):
                 else:
                     doc = obj['query']['find']
                     query = json_encoder.encode(obj['query']['filter']) if 'filter' in obj['query'] else "{}"
+                    if 'sort' in obj['query']:
+                        query += ', sort: ' + json_encoder.encode(obj['query']['sort'])
                 query += '. %s returned.' % obj['nreturned']
             elif operation == 'update':
                 doc = obj['ns'].split(".")[-1]
