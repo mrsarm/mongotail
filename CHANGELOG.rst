@@ -1,6 +1,14 @@
 Mongotail changelog
 ===================
 
+2.1.0
+-----
+
+* Support ``sort`` parameters logging (compatible with MongoDB 3.2+).
+* Support ``NumberDecimal`` type (MongoDB 3.4+).
+* Added Docker support.
+* Fixed #15 Exception when list collection indexes.
+
 
 2.0.2
 -----

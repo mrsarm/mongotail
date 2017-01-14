@@ -17,3 +17,4 @@ People who have submitted patches and reported bugs:
 * kengruven (https://github.com/kengruven)
 * Alex Kucherenko (https://github.com/AlexTiTanium)
 * Abhishek Sharma (https://github.com/sharma-abhishek)
+* Francois-Guillaume Ribreau (https://github.com/FGRibreau)
