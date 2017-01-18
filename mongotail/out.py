@@ -164,7 +164,7 @@ def print_obj(obj, verbose, metadata, mongo_version):
             sys.stdout.write("%s %s [%s] : %s\n" % (ts_time.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
                                                     operation.upper().ljust(9), doc, query))
             sys.stdout.flush()  # Allows pipe the output during the execution with others tools like 'grep'
-        except KeyError:
+        except (KeyError, TypeError):
             warn('Unknown registry\nDump: %s' % json_encoder.encode(obj))
 
 
