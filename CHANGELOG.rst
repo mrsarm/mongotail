@@ -1,6 +1,14 @@
 Mongotail changelog
 ===================
 
+2.1.1
+-----
+
+* On ``TypeError`` exceptions dump the output with
+  warn message instead of exit the program.
+* Filtered ``explain`` queries from the log.
+
+
 2.1.0
 -----
 
