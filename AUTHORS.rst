@@ -18,3 +18,4 @@ People who have submitted patches and reported bugs:
 * Alex Kucherenko (https://github.com/AlexTiTanium)
 * Abhishek Sharma (https://github.com/sharma-abhishek)
 * Francois-Guillaume Ribreau (https://github.com/FGRibreau)
+* Renzo Parziphal (https://github.com/Parziphal)
