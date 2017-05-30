@@ -76,12 +76,10 @@ def tail(client, db, lines, follow, verbose, metadata):
             cursor.skip(skip)
     if follow:
         cursor.add_option(2)  # Set the tailable flag
+    server_version = client.server_info()['version']
     while cursor.alive:
-        try:
-            result = next(cursor)
-            print_obj(result, verbose, metadata, client.server_info()['version'])
-        except StopIteration:
-            pass
+        for result in cursor:
+            print_obj(result, verbose, metadata, server_version)
 
 
 def show_profiling_level(client, db):
