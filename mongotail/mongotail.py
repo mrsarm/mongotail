@@ -75,7 +75,8 @@ def tail(client, db, lines, follow, verbose, metadata):
         if skip > 0:
             cursor.skip(skip)
     if follow:
-        cursor.add_option(2)  # Set the tailable flag
+        cursor.add_option(2)   # Set the tailable flag
+        cursor.add_option(32)  # Set the await data flag.
     server_version = client.server_info()['version']
     while cursor.alive:
         for result in cursor:
