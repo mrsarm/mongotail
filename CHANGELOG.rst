@@ -1,6 +1,16 @@
 Mongotail changelog
 ===================
 
+
+2.1.2
+-----
+
+* Fixed #20 CPU runaway using ``-f`` option with local
+  connections.
+* Avoid ``IOError: [Errno 32] Broken pipe`` that some
+  times is launched when ``Ctrl+C`` is used.
+
+
 2.1.1
 -----
 

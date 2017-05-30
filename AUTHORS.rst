@@ -19,3 +19,5 @@ People who have submitted patches and reported bugs:
 * Abhishek Sharma (https://github.com/sharma-abhishek)
 * Francois-Guillaume Ribreau (https://github.com/FGRibreau)
 * Renzo Parziphal (https://github.com/Parziphal)
+* Shane Harvey (https://github.com/ShaneHarvey)
+* Viktor Hedefalk (https://github.com/hedefalk)

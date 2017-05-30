@@ -16,5 +16,9 @@ dist
 *.ipr
 *.iws
 
+# Profiling files
+*.prof
+*.cprof
+
 # Others
 PyPI*
