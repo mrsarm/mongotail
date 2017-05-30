@@ -237,9 +237,12 @@ def main():
         else:
             tail(client, db, args.n, args.follow, args.verbose, args.metadata)
     except KeyboardInterrupt:
-        sys.stdout.write("\n")
-        sys.stdout.flush()
-        sys.stderr.flush()
+        try:
+            sys.stdout.write("\n")
+            sys.stdout.flush()
+            sys.stderr.flush()
+        except IOError:
+            pass    # Avoid `IOError: [Errno 32] Broken pipe` that some times is launched when `Ctrl+C` is used
     except ConnectionFailure as e:
         error("Error trying to authenticate: %s" % str(e), -3)
 
