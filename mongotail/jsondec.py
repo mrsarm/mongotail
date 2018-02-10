@@ -30,6 +30,7 @@ except ImportError:
     pass
 from datetime import datetime
 from uuid import UUID
+import base64
 
 REGEX_TYPE = type(re.compile(""))
 
@@ -51,6 +52,8 @@ class JSONEncoder(json.JSONEncoder):
             return {"$regex": o.pattern}
         if Decimal128 and isinstance(o, Decimal128):
             return "NumberDecimal(" + str(o) + "NumberDecimal)"
+        if isinstance(o, bytes):
+            return 'BinData(0,' + base64.b64encode(o).decode('utf-8') + 'BinData)'
         return json.JSONEncoder.default(self, o)
 
     def encode(self, o):
@@ -62,11 +65,13 @@ class JSONEncoder(json.JSONEncoder):
         result = result.replace('ObjectId)"', '")')
         result = result.replace('ObjectId)', '")')
         result = result.replace('"DBRef(', 'DBRef(')
-        result = result.replace("DBRef)\"", ')')
-        result = result.replace("\"ISODate(", "ISODate(\"")
-        result = result.replace("ISODate)\"", "\")")
-        result = result.replace("\"UUID(", "UUID(\"")
-        result = result.replace("UUID)\"", "\")")
-        result = result.replace("\"NumberDecimal(", "NumberDecimal(\"")
-        result = result.replace("NumberDecimal)\"", "\")")
+        result = result.replace('DBRef)"', ')')
+        result = result.replace('"ISODate(', 'ISODate("')
+        result = result.replace('ISODate)"', '")')
+        result = result.replace('"UUID(', 'UUID("')
+        result = result.replace('UUID)"', '")')
+        result = result.replace('"NumberDecimal(', 'NumberDecimal("')
+        result = result.replace('NumberDecimal)"', '")')
+        result = result.replace('"BinData(0,', 'BinData(0,"')
+        result = result.replace('BinData)"', '")')
         return result

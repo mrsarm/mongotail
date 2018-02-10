@@ -6,6 +6,7 @@ Mongotail changelog
 -----
 
 * Added support to MongoDB 3.6 log format.
+* Added binary data support (``BinData`` type).
 * Added python version info to ``--version`` option.
 * Now ``insert`` operations with just one document inserted
   are showed without ``[]`` notation
