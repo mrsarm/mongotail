@@ -87,7 +87,10 @@ def print_obj(obj, verbose, metadata, mongo_version):
                 query += '. %s inserted.' % obj['ninserted']
             elif operation == 'remove':
                 doc = obj['ns'].split(".")[-1]
-                query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
+                if mongo_version < "3.6":
+                    query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
+                else:
+                    query = json_encoder.encode(obj['command']['q']) if 'command' in obj and 'q' in obj['command'] else "{}"
                 query += '. %s deleted.' % obj['ndeleted']
             elif operation == "command":
                 if 'count' in obj["command"]:
