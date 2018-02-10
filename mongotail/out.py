@@ -49,10 +49,14 @@ def print_obj(obj, verbose, metadata, mongo_version):
                     doc = obj['ns'].split(".")[-1]
                     query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
                 else:
-                    doc = obj['query']['find']
-                    query = json_encoder.encode(obj['query']['filter']) if 'filter' in obj['query'] else "{}"
-                    if 'sort' in obj['query']:
-                        query += ', sort: ' + json_encoder.encode(obj['query']['sort'])
+                    if "query" in obj:
+                        cmd = obj['query']      # Mongo 3.2 - 3.4
+                    else:
+                        cmd = obj['command']    # Mongo 3.6+
+                    doc = cmd['find']
+                    query = json_encoder.encode(cmd['filter']) if 'filter' in cmd else "{}"
+                    if 'sort' in cmd:
+                        query += ', sort: ' + json_encoder.encode(cmd['sort'])
                 query += '. %s returned.' % obj['nreturned']
             elif operation == 'update':
                 doc = obj['ns'].split(".")[-1]
