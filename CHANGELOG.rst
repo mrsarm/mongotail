@@ -2,6 +2,16 @@ Mongotail changelog
 ===================
 
 
+2.2.0
+-----
+
+* Added python version info to ``--version`` option.
+* Now ``insert`` operations with one document inserted
+  are showed without ``[]`` notation
+* Fixed error when ``insert`` operations doesn't have
+  recorded the document saved in the profiler
+
+
 2.1.2
 -----
 

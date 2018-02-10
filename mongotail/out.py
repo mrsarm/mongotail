@@ -23,6 +23,7 @@
 
 
 from __future__ import absolute_import
+import collections
 import sys
 from .jsondec import JSONEncoder
 from .err import warn
@@ -64,8 +65,21 @@ def print_obj(obj, verbose, metadata, mongo_version):
                     doc = obj['ns'].split(".")[-1]
                     query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
                 else:
-                    doc = obj['query']['insert']
-                    query = json_encoder.encode(obj['query']['documents']) if 'documents' in obj['query'] else "{}"
+                    if 'query' in obj:
+                        doc = obj['query']['insert']
+                        if 'documents' in obj['query']:
+                            if isinstance(obj['query']['documents'], collections.Iterable) \
+                                    and len(obj['query']['documents']) > 1:
+                                query = json_encoder.encode(obj['query']['documents'])
+                            else:
+                                query = json_encoder.encode(obj['query']['documents'][0])
+                        else:
+                            query = "{}"
+                    else:
+                        # Some tools like Robo 3T (formerly Robomongo) allows to duplicate collections
+                        # but the profiler doesn't record the element inserted
+                        doc = obj['ns'].split(".")[-1]
+                        query = "[ DOCUMENTS INSERTED INTO COLLECTION NOT RECORDED BY THE PROFILER ]"
                 query += '. %s inserted.' % obj['ninserted']
             elif operation == 'remove':
                 doc = obj['ns'].split(".")[-1]
