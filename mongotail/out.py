@@ -60,9 +60,15 @@ def print_obj(obj, verbose, metadata, mongo_version):
                 query += '. %s returned.' % obj['nreturned']
             elif operation == 'update':
                 doc = obj['ns'].split(".")[-1]
-                query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
-                if 'updateobj' in obj:
+                if mongo_version < "3.6":
+                    query = json_encoder.encode(obj['query']) if 'query' in obj else "{}"
                     query += ', ' + json_encoder.encode(obj['updateobj'])
+                else:
+                    query = json_encoder.encode(obj['command']['q']) if 'command' in obj and 'q' in obj['command'] else "{}"
+                    query += ', ' + json_encoder.encode(obj['command']['u'])
+                if 'nModified' in obj:
+                    query += '. %s updated.' % obj['nModified']
+                elif 'nMatched' in obj:
                     query += '. %s updated.' % obj['nMatched']
             elif operation == 'insert':
                 if mongo_version < "3.2":
@@ -74,17 +80,18 @@ def print_obj(obj, verbose, metadata, mongo_version):
                         if 'documents' in obj['query']:
                             if isinstance(obj['query']['documents'], collections.Iterable) \
                                     and len(obj['query']['documents']) > 1:
-                                query = json_encoder.encode(obj['query']['documents'])
+                                query = json_encoder.encode(obj['query']['documents']) + ". "
                             else:
-                                query = json_encoder.encode(obj['query']['documents'][0])
+                                query = json_encoder.encode(obj['query']['documents'][0]) + ". "
                         else:
-                            query = "{}"
+                            query = ""
                     else:
-                        # Some tools like Robo 3T (formerly Robomongo) allows to duplicate collections
+                        # Mongo 3.6+ profiler looks like doens't record insert details (document object), and
+                        # some tools like Robo 3T (formerly Robomongo) allows to duplicate collections
                         # but the profiler doesn't record the element inserted
                         doc = obj['ns'].split(".")[-1]
-                        query = "[ DOCUMENTS INSERTED INTO COLLECTION NOT RECORDED BY THE PROFILER ]"
-                query += '. %s inserted.' % obj['ninserted']
+                        query = ""
+                query += '%s inserted.' % obj['ninserted']
             elif operation == 'remove':
                 doc = obj['ns'].split(".")[-1]
                 if mongo_version < "3.6":

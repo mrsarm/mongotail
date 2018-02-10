@@ -5,8 +5,9 @@ Mongotail changelog
 2.2.0
 -----
 
+* Added support to MongoDB 3.6 log format.
 * Added python version info to ``--version`` option.
-* Now ``insert`` operations with one document inserted
+* Now ``insert`` operations with just one document inserted
   are showed without ``[]`` notation
 * Fixed error when ``insert`` operations doesn't have
   recorded the document saved in the profiler
