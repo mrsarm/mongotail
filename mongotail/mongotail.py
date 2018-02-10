@@ -205,7 +205,8 @@ def main():
                                  "sslKeyFile. Only necessary if the private key is encrypted")
         parser.add_argument("--sslCrlFile", dest="ssl_crlfile", default=None,
                             help="path to a PEM or DER formatted certificate revocation list")
-        parser.add_argument("-V", "--version", action="version", version="%(prog)s " + __version__ + "\n<" + __url__ + ">")
+        parser.add_argument("-V", "--version", action="version",
+                            version="%(prog)s " + __version__ + " <" + __url__ + "> (python " + sys.version.split(" ")[0] + ")")
         args, address = parser.parse_known_args()
 
         if address and len(address) and address[0] == sys.argv[1]:
