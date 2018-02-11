@@ -23,8 +23,14 @@
 
 
 from setuptools import setup
+from os.path import abspath, dirname, join
 from mongotail import __version__, __license__, __doc__, __url__
 
+
+def read(*pathcomponents):
+    """Read the contents of a file located relative to setup.py"""
+    with open(join(abspath(dirname(__file__)), *pathcomponents)) as thefile:
+        return thefile.read()
 
 setup(
     name = 'mongotail',
@@ -35,6 +41,7 @@ setup(
     author='Mariano Ruiz',
     author_email='mrsarm@gmail.com',
     description=__doc__,
+    long_description=read('README.rst'),
     packages=[
         'mongotail',
     ],
