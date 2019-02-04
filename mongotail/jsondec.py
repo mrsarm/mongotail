@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015 Mariano Ruiz (<https://github.com/mrsarm/mongotail>).
+#  Copyright (C) 2015-2019 Mariano Ruiz <https://github.com/mrsarm/mongotail>
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -28,6 +28,7 @@ try:
     from bson.decimal128 import Decimal128
 except ImportError:
     pass
+from bson.timestamp import Timestamp
 from datetime import datetime
 from uuid import UUID
 import base64
@@ -48,6 +49,8 @@ class JSONEncoder(json.JSONEncoder):
                 return "ISODate(" + o.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "ZISODate)"
             except ValueError:
                 return "ISODate(" + o.isoformat()[:-3] + "ZISODate)"
+        if isinstance(o, Timestamp):
+            return "Timestamp(%s, %sTimestamp)" % (o.time, o.inc)
         if isinstance(o, (REGEX_TYPE, regex.Regex)):
             return {"$regex": o.pattern}
         if Decimal128 and isinstance(o, Decimal128):
@@ -68,6 +71,8 @@ class JSONEncoder(json.JSONEncoder):
         result = result.replace('DBRef)"', ')')
         result = result.replace('"ISODate(', 'ISODate("')
         result = result.replace('ISODate)"', '")')
+        result = result.replace('"Timestamp(', 'Timestamp(')
+        result = result.replace('Timestamp)"', ')')
         result = result.replace('"UUID(', 'UUID("')
         result = result.replace('UUID)"', '")')
         result = result.replace('"NumberDecimal(', 'NumberDecimal("')
