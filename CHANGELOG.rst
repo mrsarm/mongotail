@@ -2,6 +2,12 @@ Mongotail changelog
 ===================
 
 
+2.3.0 (UNDER DEVELOPMENT)
+-----
+
+* Added support to BSON ``Timestamp`` type.
+
+
 2.2.0
 -----
 
