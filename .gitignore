@@ -22,3 +22,8 @@ dist
 
 # Others
 PyPI*
+
+# Virtual environments
+env*/
+venv*/
+.venv*/
