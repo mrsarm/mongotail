@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015 Mariano Ruiz (<https://github.com/mrsarm/mongotail>).
+#  Copyright (C) 2015-2019 Mariano Ruiz <https://github.com/mrsarm/mongotail>
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -34,7 +34,7 @@ def error(msg, exit_code):
     """
     Print `msg` error and exit with status `exit_code`
     """
-    sys.stderr.write("%s\ntry '%s --help' for more information\n" % (msg, sys.argv[0]))
+    sys.stderr.write("%s\ntry 'mongotail --help' for more information\n" % msg)
     sys.stderr.flush()
     exit(exit_code)
 
@@ -43,7 +43,7 @@ def error_parsing(msg="unknown options"):
     """
     Print any parsing error and exit with status -1
     """
-    sys.stderr.write("Error parsing command line: %s\ntry '%s --help' for more information\n" % (msg, sys.argv[0]))
+    sys.stderr.write("Error parsing command line: %s\ntry 'mongotail --help' for more information\n" % msg)
     sys.stderr.flush()
     exit(EINVAL)
 
@@ -52,6 +52,6 @@ def error_unknown():
     """
     Print an unexpected error and exit with status -5
     """
-    sys.stderr.write("Unknown Error\ntry '%s --help' for more information\n" % sys.argv[0])
+    sys.stderr.write("Unknown Error\ntry 'mongotail --help' for more information\n")
     sys.stderr.flush()
     exit(-1)
