@@ -116,6 +116,7 @@ def show_slowms_level(client, db):
     except Exception as e:
         error('Error trying to get threshold profiling level. %s' % e, EINTR)
 
+
 def show_server_info(client, db):
     try:
         info = client.server_info()
@@ -245,6 +246,7 @@ def main():
             pass    # Avoid `IOError: [Errno 32] Broken pipe` that some times is launched when `Ctrl+C` is used
     except ConnectionFailure as e:
         error("Error trying to authenticate: %s" % str(e), -3)
+
 
 if __name__ == "__main__":
     main()

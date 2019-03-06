@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015 Mariano Ruiz (<http://mrdev.com.ar>).
+#  Copyright (C) 2015-2019 Mariano Ruiz <https://github.com/mrsarm/mongotail>
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -49,6 +49,7 @@ setup(
     platforms='any',
     install_requires=[
         'pymongo>=2.8',
+        'res-address',
     ],
     entry_points = {
         'console_scripts': [

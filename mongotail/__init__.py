@@ -31,6 +31,7 @@ __usage__ = """%(prog)s [db address] [options]
 
 db address can be:
   foo                   foo database on local machine (IPv4 connection)
+  :1234/foo             foo database on local machine on port 1234
   192.169.0.5/foo       foo database on 192.168.0.5 machine
   192.169.0.5:9999/foo  foo database on 192.168.0.5 machine on port 9999
   remotehost/foo        foo database on remotehost machine
