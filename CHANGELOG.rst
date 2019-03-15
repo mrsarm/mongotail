@@ -2,10 +2,16 @@ Mongotail changelog
 ===================
 
 
-2.3.0 (UNDER DEVELOPMENT)
+2.3.0
 -----
 
-* Added support to BSON ``Timestamp`` type.
+* Added BSON ``Timestamp`` type support.
+* Moved address parsing code to a new library
+  called ``res-address`` that now it's a
+  Mongotail's dependency.
+* Support addresses as ``:PORT/DBNAME``,
+  eg. ``mongotail :123/test``.
+* Improved address validations.
 
 
 2.2.0
