@@ -195,7 +195,7 @@ About
 
 Project: https://github.com/mrsarm/mongotail
 
-Authors: (2015-2017) Mariano Ruiz <mrsarm@gmail.cm>
+Authors: (2015-2019) Mariano Ruiz <mrsarm@gmail.cm>
 
 Changelog: `<CHANGELOG.rst>`_
 
