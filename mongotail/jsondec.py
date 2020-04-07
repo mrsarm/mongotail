@@ -80,3 +80,12 @@ class JSONEncoder(json.JSONEncoder):
         result = result.replace('"BinData(0,', 'BinData(0,"')
         result = result.replace('BinData)"', '")')
         return result
+
+    def encode_number(self, num):
+        """
+        For some reason, the profiler store integers as float,
+        eg. limit and skip arguments
+        """
+        if isinstance(num, float) and num.is_integer():
+            return str(int(num))
+        return str(num)
