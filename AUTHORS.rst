@@ -24,3 +24,4 @@ People who have submitted patches and reported bugs:
 * Timur Ruziev (https://github.com/resurtm)
 * https://github.com/mangel1196
 * Ankit (https://github.com/ankit1329)
+* Zach (https://github.com/im-zhangxi)
