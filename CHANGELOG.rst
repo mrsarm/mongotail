@@ -2,6 +2,13 @@ Mongotail changelog
 ===================
 
 
+2.4.0
+-----
+
+* Added support to cursor pagination
+  arguments in queries: ``limit`` and ``skip``
+
+
 2.3.0
 -----
 
