@@ -178,7 +178,7 @@ Docker
 
 Run with Docker (you don't need to download the source code)::
 
-    $ docker run -it --rm fgribreau/mongotail --help
+    $ docker run -it --rm mrsarm/mongotail --help
 
 If you want to connect with a database also running locally in a
 container, you have to link both instances (see howto in the Docker
@@ -187,15 +187,19 @@ Docker, remember to use the local IP of your computer because the
 ``localhost`` address (IP 127.0.0.1) points to the container, not to
 your host. Eg.::
 
-    $ docker run -it --rm fgribreau/mongotail 192.168.0.21/test
+    $ docker run -it --rm mrsarm/mongotail 192.168.0.21/test
 
+If it does not work, it may be related with network access rules,
+or because the mongo instance is not listening remote connections,
+check to have properly configured the
+`IP Binding <https://docs.mongodb.com/manual/core/security-mongodb-configuration/>`_.
 
 About
 -----
 
 Project: https://github.com/mrsarm/mongotail
 
-Authors: (2015-2019) Mariano Ruiz <mrsarm@gmail.cm>
+Authors: (2015-2020) Mariano Ruiz <mrsarm@gmail.cm>
 
 Changelog: `<CHANGELOG.rst>`_
 

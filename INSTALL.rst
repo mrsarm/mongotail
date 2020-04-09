@@ -4,8 +4,8 @@ Installing mongotail
 Prerequisites
 -------------
 
-* Python 2.6+ or Python 3.3+ (only tested with 2.7 and 3.4)
-* PyMongo (tested with versions 2.8, 3.0, 3.2 and 3.4)
+* Python 2.6+ or Python 3.3+ (only tested with 2.7, 3.4, 3.5 and 3.7)
+* PyMongo (tested with versions 2.8, 3.0, 3.2, 3.4, 3.9 and 3.10)
 
 
 Installation

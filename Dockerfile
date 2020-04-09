@@ -1,4 +1,4 @@
-FROM python:3.4-slim
-MAINTAINER Francois-Guillaume Ribreau <docker@fgirbreau.com>
-RUN pip install mongotail
+FROM python:3.7-slim
+MAINTAINER Mariano Ruiz <mrsarm@gmail.com>
+RUN pip install mongotail==2.3.0
 ENTRYPOINT ["mongotail"]
