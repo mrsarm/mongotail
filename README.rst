@@ -149,17 +149,18 @@ Linux Installation
 ^^^^^^^^^^^^^^^^^^
 
 You can install the latest stable version with ``pip`` in your
-environment with::
+environment, but it's recommended to install it with
+Python 3 (``pip3``)::
 
-    $ pip install mongotail
+    $ pip3 install mongotail
 
 Execute this command with administrator/root privileges (in
 Debian/Ubuntu Linux distribution prepend ``sudo`` to the command).
 
-You have to be installed ``pip`` tool first. In Debian/Ubuntu Linux
+You have to be installed ``pip`` / ``pip3`` tool first. In Debian/Ubuntu Linux
 distribution you can install it with (also with root privileges)::
 
-    $ apt-get install python-pip
+    $ apt-get install python3-pip
 
 
 Mac OSX Installation
