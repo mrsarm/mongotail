@@ -139,8 +139,9 @@ is `here <http://mrsarm.blogspot.com.ar/2016/08/mongotail-2-0-with-new-features-
 Installation
 ------------
 
-See `<INSTALL.rst>`_ guide to install from sources. To install
-from `PyPI repositories <https://pypi.python.org/pypi/mongotail>`_,
+See `INSTALL.rst <https://github.com/mrsarm/mongotail/blob/master/INSTALL.rst>`_
+guide to install from sources. To install
+from `PyPI repositories <https://test.pypi.org/project/mongotail/>`_,
 follow these instructions depending of your OS:
 
 
@@ -201,7 +202,7 @@ Project: https://github.com/mrsarm/mongotail
 
 Authors: (2015-2020) Mariano Ruiz <mrsarm@gmail.cm>
 
-Changelog: `<CHANGELOG.rst>`_
+Changelog: `CHANGELOG.rst <https://github.com/mrsarm/mongotail/blob/master/CHANGELOG.rst>`_
 
 More guides: http://mrsarm.blogspot.com.ar/search/label/Mongotail
 
