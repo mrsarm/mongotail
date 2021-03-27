@@ -2,11 +2,19 @@ Mongotail changelog
 ===================
 
 
+2.4.1
+-----
+
+* Fix bug cause "aggregate" queries not be logged.
+* Minor rewording of the messages used when
+  the user checks or changes the profiling level.
+
+
 2.4.0
 -----
 
 * Added support to cursor pagination
-  arguments in queries: ``limit`` and ``skip``
+  arguments in queries: ``limit`` and ``skip``.
 
 
 2.3.0
