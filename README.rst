@@ -105,16 +105,16 @@ Optional arguments:
 Enabling Database Profiling and Showing Logs
 --------------------------------------------
 
-You have to activate first in the current database the
+First you have to activate in the current database the
 `profiler <http://docs.mongodb.org/manual/reference/method/db.setProfilingLevel>`_,
-so MongoDB will capture all the activity in a special document that is read by Mongotail.
+so MongoDB will capture all the activity in a special collection that is read by Mongotail.
 
-You can achieve this with ``-l, --level`` option. For example, if you want to see the logs
-from MYDATABASE, first you have to execute this::
+You can achieve this with the ``-l, --level`` option. For example, if you want to see the logs
+from MYDATABASE, first you have to execute::
 
     $ mongotail MYDATABASE -l 2
 
-Then you can see the latest lines of logging with::
+Then you can see the latest logged records with::
 
     $ mongotail MYDATABASE
     2015-02-24 19:17:01.194 QUERY  [Company] : {"_id": ObjectId("548b164144ae122dc430376b")}. 1 returned.
@@ -123,10 +123,10 @@ Then you can see the latest lines of logging with::
     2015-02-24 19:17:10.729 COUNT  [User] : {"active": {"$exists": true}, "firstName": {"$regex": "mac"}}
     ...
 
-To Connect with SSL or a remote Mongo instance, check the options with ``mongotail --help`` command.
+To Connect with SSL or a remote Mongo instance, check the options with ``mongotail --help``.
 
 **NOTE**: The level chosen can affect performance. It also can allow the
-server to write the contents of queries to the log, which might have
+server to write the content of queries to the log, which might have
 information security implications for your deployment. Remember to setup your
 database profiling level to ``0`` again after debugging your data::
 
@@ -161,6 +161,17 @@ You have to be installed ``pip`` / ``pip3`` tool first. In Debian/Ubuntu Linux
 distribution you can install it with (also with root privileges)::
 
     $ apt-get install python3-pip
+
+Install mongotail in the user space without root privileges is also
+possible with::
+
+    $ pip3 install --user mongotail
+
+But the ``mongotail`` executable will be installed in the ``$HOME/.local/bin``
+folder, that in most Linux distributions is not added to the ``$PATH`` variable
+to be able to execute the command without the need to use the full
+path (``$HOME/.local/bin/mongotail``). So either add ``$HOME/.local/bin``
+to the ``$PATH`` variable or execute Mongotail with the full path each time.
 
 
 Mac OSX Installation
@@ -201,7 +212,7 @@ About
 
 Project: https://github.com/mrsarm/mongotail
 
-Authors: (2015-2020) Mariano Ruiz <mrsarm@gmail.cm>
+Authors: (2015-2021) Mariano Ruiz <mrsarm@gmail.cm>
 
 Changelog: `CHANGELOG.rst <https://github.com/mrsarm/mongotail/blob/master/CHANGELOG.rst>`_
 
