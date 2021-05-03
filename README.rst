@@ -141,7 +141,7 @@ Installation
 
 See `INSTALL.rst <https://github.com/mrsarm/mongotail/blob/master/INSTALL.rst>`_
 guide to install from sources. To install
-from `PyPI repositories <https://test.pypi.org/project/mongotail/>`_,
+from `PyPI repositories <https://pypi.org/project/mongotail/>`_,
 follow these instructions depending of your OS:
 
 
@@ -212,7 +212,7 @@ About
 
 Project: https://github.com/mrsarm/mongotail
 
-Authors: (2015-2021) Mariano Ruiz <mrsarm@gmail.cm>
+Authors: (2015-2021) Mariano Ruiz <mrsarm@g...l.com>
 
 Changelog: `CHANGELOG.rst <https://github.com/mrsarm/mongotail/blob/master/CHANGELOG.rst>`_
 
