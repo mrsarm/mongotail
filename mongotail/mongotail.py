@@ -42,7 +42,7 @@ LOG_QUERY = {
         "command.collstats": {"$exists": False},
         "command.createIndexes": {"$exists": False},
         "command.listIndexes": {"$exists": False},
-        "command.cursor": {"$exists": False},
+        #"command.cursor": {"$exists": False},
         "command.create": {"$exists": False},
         "command.dbstats": {"$exists": False},
         "command.scale": {"$exists": False},
@@ -86,7 +86,7 @@ def tail(client, db, lines, follow, verbose, metadata):
 def show_profiling_level(client, db):
     try:
         level = db.profiling_level()
-        sys.stdout.write("Profiling level currently in level %s\n" % level)
+        sys.stdout.write("Profiling currently set in level %s\n" % level)
     except Exception as e:
         error('Error trying to get profiling level. %s' % e, EINTR)
 
@@ -94,7 +94,7 @@ def show_profiling_level(client, db):
 def set_profiling_level(client, db, level):
     try:
         db.set_profiling_level(int(level))
-        sys.stdout.write("Profiling level set to level %s\n" % level)
+        sys.stdout.write("Profiling set to level %s\n" % level)
     except Exception as e:
         err = str(e).replace("OFF", "0").replace("SLOW_ONLY", "1").replace("ALL", "2")
         error('Error configuring profiling level to "%s". %s' % (level, err), EINTR)
