@@ -62,24 +62,13 @@ def tail(client, db, lines, follow, verbose, metadata):
     else:
         fields = LOG_FIELDS
     profile_collection = db.system.profile
-    pymongo_version = get_version_string()
-    if pymongo_version >= "3.0":
-        # Since PyMongo 3.0 fields are passed to `find` function with the parameter `projection`
-        cursor = profile_collection.find(LOG_QUERY, projection=fields)
-    else:
-        # Until PyMongo 2.8 fields are passed to `find` function with the parameter `fields`
-        cursor = profile_collection.find(LOG_QUERY, fields=fields)
+    cursor = profile_collection.find(LOG_QUERY, projection=fields)
     if lines.upper() != "ALL":
         try:
             lines = int(lines)
         except ValueError:
             error_parsing('Invalid lines number "%s"' % lines)
-        if pymongo_version >= "4.0":
-            query_count = profile_collection.count_documents(LOG_QUERY)
-        else:
-            # Cursor#count() was removed on PyMongo 4.0
-            query_count = cursor.count()
-        skip = query_count - lines
+        skip = profile_collection.count_documents(LOG_QUERY) - lines
         if skip > 0:
             cursor.skip(skip)
     if follow:

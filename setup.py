@@ -48,7 +48,7 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'pymongo>=2.8',
+        'pymongo>=3.12',
         'res-address',
     ],
     entry_points = {
