@@ -4,7 +4,7 @@ Installing mongotail
 Prerequisites
 -------------
 
-* Python 3.3+ or 2.6+ Python (only tested with 2.7, 3.4, 3.5 and 3.7)
+* Python 3.5+ or 2.7+ Python (only tested with 2.7, 3.5 and 3.7, 3.8 and 3.10)
 * PyMongo (tested with versions 2.8, 3.0, 3.2, 3.4, 3.9 and 3.10)
 
 
@@ -32,9 +32,9 @@ First, install essential build packages and Python build tools with::
 
     $ apt-get install python3-pip python3-dev build-essential python3-setuptools
 
-Then install ``pymongo`` library with::
+Then install the ``res-address`` and ``pymongo`` libraries::
 
-    $ pip3 install pymongo
+    $ pip3 install res-address pymongo
 
 Like the *Installation* instructions, you may need administrator/root privileges
 for this step.

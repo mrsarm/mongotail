@@ -167,11 +167,11 @@ possible with::
 
     $ pip3 install --user mongotail
 
-But the ``mongotail`` executable will be installed in the ``$HOME/.local/bin``
-folder, that in most Linux distributions is not added to the ``$PATH`` variable
-to be able to execute the command without the need to use the full
-path (``$HOME/.local/bin/mongotail``). So either add ``$HOME/.local/bin``
-to the ``$PATH`` variable or execute Mongotail with the full path each time.
+Note that the ``mongotail`` executable will be installed in the ``$HOME/.local/bin``
+folder. If the folder didn't exist before, Pip will create it, but in the
+shell console the path won't be added to the ``$PATH`` variable until Bash is not
+instantiated again, so to be able to execute the command without the need to use
+the full path (``$HOME/.local/bin/mongotail``) just open a new Bash session.
 
 
 Mac OSX Installation
