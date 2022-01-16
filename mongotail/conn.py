@@ -39,7 +39,7 @@ def connect(address, args):
       it's asked from tty.
     - auth_database: authenticate the username and password against that database (optional).
       If not specified, the database specified in address will be used.
-    - ssl, ssl_certfile, ssl_keyfile, ssl_cert_reqs, ssl_ca_certs: SSL authentication options
+    - tls, tlsCertificateKeyFile, tlsAllowInvalidCertificates, ...: TSL authentication options
     :return: a tuple with ``(client, db)``
     """
     try:
@@ -49,12 +49,18 @@ def connect(address, args):
 
     try:
         options = {}
-        if args.ssl:
-            options["ssl"] = True
-            options["ssl_certfile"] = args.ssl_cert_file
-            options["ssl_keyfile"] = args.ssl_key_file
-            options["ssl_cert_reqs"] = args.ssl_cert_reqs
-            options["ssl_ca_certs"] = args.ssl_ca_certs
+        if args.tls:
+            options["tls"] = True
+            if args.tlsCertificateKeyFile:
+                options["tlsCertificateKeyFile"] = args.tlsCertificateKeyFile
+            if args.tlsCertificateKeyFilePassword:
+                options["tlsCertificateKeyFilePassword"] = args.tlsCertificateKeyFilePassword
+            if args.tlsCAFile:
+                options["tlsCAFile"] = args.tlsCAFile
+            if args.tlsCRLFile:
+                options["tlsCRLFile"] = args.tlsCRLFile
+            if args.tlsAllowInvalidCertificates:
+                options["tlsAllowInvalidCertificates"] = args.tlsAllowInvalidCertificates
 
         client = MongoClient(host=host, port=port, **options)
     except Exception as e:

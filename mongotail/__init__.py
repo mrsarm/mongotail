@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015-2021 Mariano Ruiz <https://github.com/mrsarm/mongotail>
+#  Copyright (C) 2015-2022 Mariano Ruiz <https://github.com/mrsarm/mongotail>
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -23,7 +23,7 @@
 
 
 __author__ = 'Mariano Ruiz'
-__version__ = '2.4.1'
+__version__ = '2.5.0-rc1'
 __license__ = 'GPL-3'
 __url__ = 'https://github.com/mrsarm/mongotail'
 __doc__ = """Mongotail, Log all MongoDB queries in a "tail"able way."""

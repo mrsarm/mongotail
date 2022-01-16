@@ -3,7 +3,7 @@
 ##############################################################################
 #
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015-2019 Mariano Ruiz <https://github.com/mrsarm/mongotail>
+#  Copyright (C) 2015-2022 Mariano Ruiz <https://github.com/mrsarm/mongotail>
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -28,7 +28,6 @@ import sys, re, argparse
 from .conn import connect
 from .out import print_obj
 from .err import error, error_parsing, EINTR, EDESTADDRREQ
-from pymongo import get_version_string
 from pymongo.read_preferences import ReadPreference
 from pymongo.errors import ConnectionFailure
 
@@ -181,27 +180,22 @@ def main():
         parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", default=False,
                             help="verbose mode (not recommended). All the operations will printed in JSON without "
                                  "format and with all the information available from the log")
-        parser.add_argument("--ssl", action="store_true", default=False,
-                            help ="creates the connection to the server using SSL")
-        parser.add_argument("--sslCertFile", dest="ssl_cert_file", default=None,
-                            help ="certificate file used to identify the local connection against MongoDB")
-        parser.add_argument("--sslKeyFile", dest="ssl_key_file", default=None,
-                            help ="private keyfile used to identify the local connection against MongoDB. "
-                                  "If included with the certfile then only the sslCertFile is needed")
-        parser.add_argument("--sslCertReqs", dest="ssl_cert_reqs", default=0,
-                            help="specifies whether a certificate is required from the other side of the connection, "
-                                 "and whether it will be validated if provided. It must be any of three values: "
-                                 "0 (certificate ignored), "
-                                 "1 (not required, but validated if provided), "
-                                 "2 (required and validated)")
-        parser.add_argument("--sslCACerts", dest="ssl_ca_certs", default=None,
-                            help="file that contains a set of concatenated \"certification authority\" "
+        parser.add_argument("--tls", action="store_true", default=False,
+                            help ="creates the connection to the server using transport layer security")
+        parser.add_argument("--tlsCertificateKeyFile", dest="tlsCertificateKeyFile", default=None,
+                            help="client certificate to connect against MongoDB. It's the concatenation of "
+                                 "both the private key and and the certificate file")
+        parser.add_argument("--tlsAllowInvalidCertificates", dest="tlsAllowInvalidCertificates",
+                            action="store_true", default=False,
+                            help="disable the requirement of a certificate from the server when TLS is enabled")
+        parser.add_argument("--tlsCAFile", dest="tlsCAFile", default=None,
+                            help="file that contains a set of concatenated CA "
                                  "certificates, which are used to validate certificates passed from the other "
                                  "end of the connection")
-        parser.add_argument("--sslPEMPassword", dest="ssl_pem_passphrase", default=None,
-                            help="password or passphrase for decrypting the private key in sslCertFile or "
-                                 "sslKeyFile. Only necessary if the private key is encrypted")
-        parser.add_argument("--sslCrlFile", dest="ssl_crlfile", default=None,
+        parser.add_argument("--tlsCertificateKeyFilePassword", dest="tlsCertificateKeyFilePassword", default=None,
+                            help="password for private key contained fn the certificate keyfile is encrypted."
+                                 "")
+        parser.add_argument("--tlsCRLFile", dest="tlsCRLFile", default=None,
                             help="path to a PEM or DER formatted certificate revocation list")
         parser.add_argument("-V", "--version", action="version",
                             version="%(prog)s " + __version__ + " <" + __url__ + "> (python " + sys.version.split(" ")[0] + ")")
