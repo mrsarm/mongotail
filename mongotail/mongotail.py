@@ -82,15 +82,15 @@ def tail(client, db, lines, follow, verbose, metadata):
 
 def show_profiling_level(client, db):
     try:
-        level = db.profiling_level()
-        sys.stdout.write("Profiling currently set in level %s\n" % level)
+        level = db.command("profile", -1)
+        sys.stdout.write("Profiling currently set in level %s\n" % level["was"])
     except Exception as e:
         error('Error trying to get profiling level. %s' % e, EINTR)
 
 
 def set_profiling_level(client, db, level):
     try:
-        db.set_profiling_level(int(level))
+        db.command("profile", int(level))
         sys.stdout.write("Profiling set to level %s\n" % level)
     except Exception as e:
         err = str(e).replace("OFF", "0").replace("SLOW_ONLY", "1").replace("ALL", "2")
@@ -98,9 +98,9 @@ def set_profiling_level(client, db, level):
 
 
 def set_slowms_level(client, db, slowms):
-    profiling_level = db.profiling_level()
+    profiling_level = db.command("profile", -1)["was"]
     try:
-        db.set_profiling_level(profiling_level, int(slowms))
+        db.command({"profile": profiling_level, "slowms": int(slowms)})
         sys.stdout.write("Threshold profiling set to %s milliseconds\n" % slowms)
     except Exception as e:
         error('Error configuring threshold profiling in "%s" milliseconds. %s' % (slowms, str(e)), EINTR)
