@@ -23,19 +23,12 @@
 
 
 import re, json
-from bson import ObjectId, DBRef, regex
+from bson import ObjectId, DBRef, regex, MinKey, MaxKey
+from bson.decimal128 import Decimal128
 from bson.timestamp import Timestamp
 from datetime import datetime
 from uuid import UUID
 import base64
-try:
-    from bson.decimal128 import Decimal128
-except ImportError:
-    Decimal128 = None
-try:
-    from bson import MinKey, MaxKey
-except ImportError:
-    MinKey = MaxKey = None
 
 REGEX_TYPE = type(re.compile(""))
 
@@ -57,13 +50,12 @@ class JSONEncoder(json.JSONEncoder):
             return "Timestamp(%s, %sTimestamp)" % (o.time, o.inc)
         if isinstance(o, (REGEX_TYPE, regex.Regex)):
             return {"$regex": o.pattern}
-        if Decimal128 and isinstance(o, Decimal128):
+        if isinstance(o, Decimal128):
             return "NumberDecimal(" + str(o) + "NumberDecimal)"
-        if MinKey:
-            if isinstance(o, MinKey):
-                return "MinKey(MinKey)"
-            if isinstance(o, MaxKey):
-                return "MinKey(MinKey)"
+        if isinstance(o, MinKey):
+            return "MinKey(MinKey)"
+        if isinstance(o, MaxKey):
+            return "MinKey(MinKey)"
         if isinstance(o, bytes):
             return 'BinData(0,' + base64.b64encode(o).decode('utf-8') + 'BinData)'
         return json.JSONEncoder.default(self, o)
