@@ -193,8 +193,8 @@ def main():
                                  "certificates, which are used to validate certificates passed from the other "
                                  "end of the connection")
         parser.add_argument("--tlsCertificateKeyFilePassword", dest="tlsCertificateKeyFilePassword", default=None,
-                            help="password for private key contained fn the certificate keyfile is encrypted."
-                                 "")
+                            help="password or passphrase to decrypt the encrypted private keys if the "
+                                 "private key contained in the certificate keyfile is encrypted")
         parser.add_argument("--tlsCRLFile", dest="tlsCRLFile", default=None,
                             help="path to a PEM or DER formatted certificate revocation list")
         parser.add_argument("-V", "--version", action="version",
