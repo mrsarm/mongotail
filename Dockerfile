@@ -5,7 +5,7 @@
 #
 # NOT for development environments
 
-FROM python:3.8-slim
+FROM python:3.10-slim
 MAINTAINER Mariano Ruiz <mrsarm@gmail.com>
-RUN pip install --no-cache-dir mongotail==2.4.1
+RUN pip install --no-cache-dir mongotail==3.0b1
 ENTRYPOINT ["mongotail"]
