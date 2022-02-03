@@ -47,7 +47,7 @@ LOG_QUERY = {
         "command.scale": {"$exists": False},
         "command.explain": {"$exists": False},
         "command.count": {"$ne": "system.profile"},
-        "op": re.compile(r"^((?!(getmore|killcursors)).)"),
+        "op": re.compile(r"^((?!(getmore|killcursors)).)", re.IGNORECASE),
 }
 
 LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched', 'nreturned']
