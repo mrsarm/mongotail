@@ -1,6 +1,8 @@
 Mongotail
 =========
 
+.. image:: docs/images/mongotail-console.png
+
 Mongotail, Log all `MongoDB <http://www.mongodb.org>`_ queries in a *"tail"able* way.
 
 ``mongotail`` is a command line tool to outputs any operation from a Mongo
