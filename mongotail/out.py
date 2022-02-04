@@ -61,7 +61,9 @@ def print_obj(obj, verbose, metadata, mongo_version):
                         query += ', limit: ' + json_encoder.encode_number(cmd['limit'])
                     if 'skip' in cmd:
                         query += ', skip: ' + json_encoder.encode_number(cmd['skip'])
-                query += '. %s returned.' % obj['nreturned']
+                if 'nreturned' in obj:
+                    # If a query fails Mongo doesn't record nreturned
+                    query += '. %s returned.' % obj['nreturned']
             elif operation == 'update':
                 doc = obj['ns'].split(".")[-1]
                 if mongo_version < "3.6":
