@@ -23,7 +23,7 @@
 
 
 __author__ = 'Mariano Ruiz'
-__version__ = '3.0b1'
+__version__ = '3.0b2'
 __license__ = 'GPL-3'
 __url__ = 'https://github.com/mrsarm/mongotail'
 __doc__ = """Mongotail, Log all MongoDB queries in a "tail"able way."""
