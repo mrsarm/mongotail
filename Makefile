@@ -64,3 +64,8 @@ upload-test: build
 # Install the distributable package from PyPI
 install-from-pypi:
 	${PYTHON} -m pip install --index-url ${INDEX_URL} --extra-index-url ${MAIN_INDEX_URL} -U --pre mongotail
+
+#build-docker-image:
+	# Remember to update the version in the Dockerfile first !
+#	docker build -t mrsarm/mongotail:3.0b3 .
+#	docker push mrsarm/mongotail:3.0b3
