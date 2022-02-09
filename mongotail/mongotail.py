@@ -46,6 +46,7 @@ LOG_QUERY = {
         "command.dbstats": {"$exists": False},
         "command.scale": {"$exists": False},
         "command.explain": {"$exists": False},
+        "command.killCursors": {"$exists": False},
         "command.count": {"$ne": "system.profile"},
         "op": re.compile(r"^((?!(getmore|killcursors)).)", re.IGNORECASE),
 }
