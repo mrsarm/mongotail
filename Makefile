@@ -23,9 +23,7 @@ INDEX_URL = ${MAIN_INDEX_URL}
 PIP_ARGS = --index-url ${MAIN_INDEX_URL}
 
 clean:
-	rm -fR build/
-	rm -fR dist/
-	rm -fR .eggs/
+	rm -fR build/ mongotail.egg-info/ dist/ .eggs/
 
 clean-all: clean
 	rm -Rf ${VENV}
