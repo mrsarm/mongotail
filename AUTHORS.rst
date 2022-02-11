@@ -25,3 +25,4 @@ People who have submitted patches and reported bugs:
 * https://github.com/mangel1196
 * Ankit (https://github.com/ankit1329)
 * Zach (https://github.com/im-zhangxi)
+* Patrick Portal (https://github.com/pp0rtal)

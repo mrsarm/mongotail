@@ -19,12 +19,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Upgrade Python dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
     - name: Test install
       run: |
-        pip install .
+        make install
     - name: Test run --version
       run: |
         mongotail --version

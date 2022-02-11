@@ -17,6 +17,8 @@ But the more interesting feature (also like ``tail``) is to see the changes
 in *"real time"* with the ``-f`` option, and occasionally filter the result
 with ``grep`` to find a particular operation.
 
+MongoDB version 2.8 and above are supported.
+
 Syntax
 ------
 
@@ -65,39 +67,34 @@ Optional arguments:
                       consider a query or operation to be slow (use with
                       `--level 1`). Or use with 'status' word to show the
                       current milliseconds configured
--m, --metadata        extra metadata fields to show. Known fields (may vary
-                      depending of the operation and the MongoDB version):
+-m METADATA, --metadata METADATA
+                      extra metadata fields to show. Known fields may vary
+                      depending of the operation and the MongoDB version:
                       millis, nscanned, docsExamined, execStats, lockStats ...
+                      (pass each METADATA field separated by one space)
 -i, --info            get information about the MongoDB server we're connected to
 -v, --verbose         verbose mode (not recommended). All the operations will
                       printed in JSON without format and with all the
                       information available from the log
---ssl                 creates the connection to the server using SSL
---sslCertFile SSL_CERT_FILE
-                      certificate file used to identify the local connection
-                      against MongoDB
---sslKeyFile SSL_KEY_FILE
-                      private keyfile used to identify the local connection
-                      against MongoDB. If included with the certfile then
-                      only the sslCertFile is needed
---sslCertReqs SSL_CERT_REQS
-                      specifies whether a certificate is required from the
-                      other side of the connection, and whether it will be
-                      validated if provided. It must be any of three values:
-                      0 (certificate ignored), 1 (not required, but
-                      validated if provided), 2 (required and validated)
---sslCACerts SSL_CA_CERTS
-                      file that contains a set of concatenated
-                      "certification authority" certificates, which are used
-                      to validate certificates passed from the other end of
-                      the connection
---sslPEMPassword SSL_PEM_PASSPHRASE
-                      password or passphrase for decrypting the private key
-                      in sslCertFile or sslKeyFile. Only necessary if the
-                      private key is encrypted
---sslCrlFile SSL_CRLFILE
-                      path to a PEM or DER formatted certificate revocation
-                      list
+--tls                 creates the connection to the server using
+                      transport layer security
+--tlsCertificateKeyFile TLSCERTIFICATEKEYFILE
+                      client certificate to connect against MongoDB.
+                      It's the concatenation of both the private key and and
+                      the certificate file
+--tlsAllowInvalidCertificates
+                      disable the requirement of a certificate from the
+                      server when TLS is enabled
+--tlsCAFile TLSCAFILE
+                      file that contains a set of concatenated CA certificates,
+                      which are used to validate certificates passed
+                      from the other end of the connection
+--tlsCertificateKeyFilePassword TLSCERTIFICATEKEYFILEPASSWORD
+                      password or passphrase to decrypt the encrypted private
+                      keys if the private key contained in the
+                      certificate keyfile is encrypted.
+--tlsCRLFile TLSCRLFILE
+                      path to a PEM or DER formatted certificate revocation list
 -h, --help            show this help message and exit
 -V, --version         show program's version number and exit
 
@@ -167,11 +164,11 @@ possible with::
 
     $ pip3 install --user mongotail
 
-But the ``mongotail`` executable will be installed in the ``$HOME/.local/bin``
-folder, that in most Linux distributions is not added to the ``$PATH`` variable
-to be able to execute the command without the need to use the full
-path (``$HOME/.local/bin/mongotail``). So either add ``$HOME/.local/bin``
-to the ``$PATH`` variable or execute Mongotail with the full path each time.
+Note that the ``mongotail`` executable will be installed in the ``$HOME/.local/bin``
+folder. If the folder didn't exist before, Pip will create it, but in the
+shell console the path won't be added to the ``$PATH`` variable until Bash is not
+instantiated again, so to be able to execute the command without the need to use
+the full path (``$HOME/.local/bin/mongotail``) just open a new Bash session.
 
 
 Mac OSX Installation
@@ -212,7 +209,7 @@ About
 
 Project: https://github.com/mrsarm/mongotail
 
-Authors: (2015-2021) Mariano Ruiz <mrsarm@g...l.com>
+Authors: (2015-2022) Mariano Ruiz <mrsarm@g...l.com>
 
 Changelog: `CHANGELOG.rst <https://github.com/mrsarm/mongotail/blob/master/CHANGELOG.rst>`_
 

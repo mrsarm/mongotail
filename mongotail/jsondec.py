@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #  Mongotail, Log all MongoDB queries in a "tail"able way.
-#  Copyright (C) 2015-2019 Mariano Ruiz <https://github.com/mrsarm/mongotail>
+#  Copyright (C) 2015-2022 Mariano Ruiz <https://github.com/mrsarm/mongotail>
 #
 #  Author: Mariano Ruiz <mrsarm@gmail.com>
 #
@@ -23,11 +23,8 @@
 
 
 import re, json
-from bson import ObjectId, DBRef, regex
-try:
-    from bson.decimal128 import Decimal128
-except ImportError:
-    pass
+from bson import ObjectId, DBRef, regex, MinKey, MaxKey
+from bson.decimal128 import Decimal128
 from bson.timestamp import Timestamp
 from datetime import datetime
 from uuid import UUID
@@ -53,8 +50,12 @@ class JSONEncoder(json.JSONEncoder):
             return "Timestamp(%s, %sTimestamp)" % (o.time, o.inc)
         if isinstance(o, (REGEX_TYPE, regex.Regex)):
             return {"$regex": o.pattern}
-        if Decimal128 and isinstance(o, Decimal128):
+        if isinstance(o, Decimal128):
             return "NumberDecimal(" + str(o) + "NumberDecimal)"
+        if isinstance(o, MinKey):
+            return "MinKey(MinKey)"
+        if isinstance(o, MaxKey):
+            return "MinKey(MinKey)"
         if isinstance(o, bytes):
             return 'BinData(0,' + base64.b64encode(o).decode('utf-8') + 'BinData)'
         return json.JSONEncoder.default(self, o)
@@ -77,6 +78,10 @@ class JSONEncoder(json.JSONEncoder):
         result = result.replace('UUID)"', '")')
         result = result.replace('"NumberDecimal(', 'NumberDecimal("')
         result = result.replace('NumberDecimal)"', '")')
+        result = result.replace('"MinKey(', 'MinKey(')
+        result = result.replace('MinKey)"', ')')
+        result = result.replace('"MaxKey(', 'MaxKey(')
+        result = result.replace('MaxKey)"', ')')
         result = result.replace('"BinData(0,', 'BinData(0,"')
         result = result.replace('BinData)"', '")')
         return result
