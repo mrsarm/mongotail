@@ -67,3 +67,6 @@ install-from-pypi:
 	# Remember to update the version in the Dockerfile first !
 #	docker build -t mrsarm/mongotail:3.0.0 .
 #	docker push mrsarm/mongotail:3.0.0
+#	docker tag mrsarm/mongotail:3.0.0 mrsarm/mongotail:latest
+#   docker push mrsarm/mongotail:3.0.0
+#   docker push mrsarm/mongotail:latest
