@@ -1,7 +1,7 @@
 .PHONY: clean install install-dev uninstall check-mongotail-version build upload upload-test
 .DEFAULT_GOAL := install
 
-VENV = venv
+VENV ?= venv
 
 SYSTEM_PYTHON  = $(or $(shell which python3), $(shell which python))
 SYSTEM_PIP     = $(or $(shell which pip3), $(shell which pip))
