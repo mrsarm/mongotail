@@ -42,8 +42,10 @@ def connect(address, args):
     - tls, tlsCertificateKeyFile, tlsAllowInvalidCertificates, ...: TSL authentication options
     :return: a tuple with ``(client, db)``
     """
+    has_schema = "://" in address
+    address_without_schema = address.split("://")[1] if has_schema else address
     try:
-        host,  port, dbname = get_res_address(address)
+        host,  port, dbname = get_res_address(address_without_schema)
     except AddressError as e:
         error_parsing(str(e).replace("resource", "database"))
 
@@ -61,24 +63,22 @@ def connect(address, args):
                 options["tlsCRLFile"] = args.tlsCRLFile
             if args.tlsAllowInvalidCertificates:
                 options["tlsAllowInvalidCertificates"] = args.tlsAllowInvalidCertificates
+        if args.username:
+            options["username"] = args.username
+            password = args.password
+            if password is None:
+                password = getpass.getpass()
+            options["password"] = password
+            if args.auth_database:
+                options["authSource"] = args.auth_database
+            else:
+                options["authSource"] = 'test'
 
-        client = MongoClient(host=host, port=port, **options)
+        if has_schema in address:
+            client = MongoClient(address, **options)
+        else:
+            client = MongoClient(host=host, port=port, **options)
     except Exception as e:
         error("Error trying to connect: %s" % str(e), ECONNREFUSED)
-
-    username = args.username
-    password = args.password
-    auth_database = args.auth_database
-
-    if username:
-        if password is None:
-            password = getpass.getpass()
-        if auth_database is None:
-            auth_database = dbname
-        try:
-            auth_db = client[auth_database]
-            auth_db.authenticate(username, password)
-        except Exception as e:
-            error("Error trying to authenticate: %s" % str(e), -3)
     db = client[dbname]
     return client, db
