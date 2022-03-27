@@ -28,22 +28,30 @@ Usage::
 
 "db address" can be:
 
-+----------------------+-------------------------------------------------------------+
-| foo                  | foo database on local machine (IPv4 connection)             |
-+----------------------+-------------------------------------------------------------+
-| :1234/foo            | foo database on local machine on port 1234                  |
-+----------------------+-------------------------------------------------------------+
-| 192.169.0.5/foo      | foo database on 192.168.0.5 machine                         |
-+----------------------+-------------------------------------------------------------+
-| remotehost/foo       | foo database on *remotehost* machine                        |
-+----------------------+-------------------------------------------------------------+
-| 192.169.0.5:9999/foo | foo database on 192.168.0.5 machine on port 9999            |
-+----------------------+-------------------------------------------------------------+
-| "[::1]:9999/foo"     | foo database on ::1 machine on port 9999 (IPv6 connection)  |
-+----------------------+-------------------------------------------------------------+
++------------------------------+-----------------------------------------------------------------+
+| foo                          | foo database on local machine (IPv4 connection)                 |
++------------------------------+-----------------------------------------------------------------+
+| :1234/foo                    | foo database on local machine on port 1234                      |
++------------------------------+-----------------------------------------------------------------+
+| 192.169.0.5/foo              | foo database on 192.168.0.5 machine                             |
++------------------------------+-----------------------------------------------------------------+
+| remotehost/foo               | foo database on *remotehost* machine                            |
++------------------------------+-----------------------------------------------------------------+
+| user:pass@host/foo           | foo database on *host* machine, with user and pass provided     |
++------------------------------+-----------------------------------------------------------------+
+| 192.169.0.5:9999/foo         | foo database on 192.168.0.5 machine on port 9999                |
++------------------------------+-----------------------------------------------------------------+
+| "[::1]:9999/foo"             | foo database on ::1 machine on port 9999 (IPv6 connection)      |
++------------------------------+-----------------------------------------------------------------+
+| mongodb://10.0.0.4:9999/foo  | foo resource on 10.0.0.4 machine on port 9999, scheme mongodb   |
++------------------------------+-----------------------------------------------------------------+
 
+*New in 3.1*: URIs with schemas ``mongodb://`` and ``mongodb+srv://`` are supported,
+e.g. ``mongodb://host:1234/foo``, and user and password can also be set in the URI,
+although it's a very insecure way of provide that information. See bellow
+how to provide authentication information like user, password, auth database, ...
 
-Optional arguments:
+**Optional arguments**:
 
 -u USERNAME, --username USERNAME
                       username for authentication

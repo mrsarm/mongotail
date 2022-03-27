@@ -30,6 +30,7 @@ def warn(msg):
     sys.stderr.write("Mongotail EXCEPTION - %s\n" % msg)
     sys.stderr.flush()
 
+
 def error(msg, exit_code):
     """
     Print `msg` error and exit with status `exit_code`

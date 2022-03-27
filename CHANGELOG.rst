@@ -2,19 +2,28 @@ Mongotail changelog
 ===================
 
 
+3.1.0
+-----
+
+* Fix authentication mechanism: was broken with latest PyMongo versions.
+* Allows to set the schema in the URI (``mongodb://``).
+* Add dependency to connect to MongoDB using the ``mongodb+srv://`` schema.
+* Minor fixes in script and configuration files for building the app.
+
+
 3.0.0
 -----
 
-* Add support to the new PyMongo driver version 4.0 (#34)
+* Add support to the new PyMongo driver version 4.0 (#34).
 * Add support to the types ``MinKey`` / ``MaxKey``
-  from MongoDB (#35)
+  from MongoDB (#35).
 * Remove deprecated SSL arguments in favor of the
-  new *TLS* arguments
-* Remove support to Python 2.6, 3.3, and 3.4
+  new *TLS* arguments.
+* Remove support to Python 2.6, 3.3, and 3.4.
 * Fix when a query fails Mongo doesn't
-  record ``nreturned`` (number of record returned)
+  record ``nreturned`` (number of record returned).
 * Fix Mongo logs ``killcursors`` operations with different
-  cases causing exception when parsing logs
+  cases causing exception when parsing logs.
 
 
 2.4.1

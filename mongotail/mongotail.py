@@ -25,13 +25,15 @@
 
 from __future__ import absolute_import
 import sys, re, argparse
+from errno import ECONNREFUSED
+
 from .conn import connect
 from .out import print_obj
 from .err import error, error_parsing, EINTR, EDESTADDRREQ
 from pymongo.read_preferences import ReadPreference
-from pymongo.errors import ConnectionFailure
+from pymongo.errors import ConnectionFailure, OperationFailure
 
-from . import __version__, __license__, __doc__, __url__, __usage__
+from . import __version__, __doc__, __url__, __usage__
 
 DEFAULT_LIMIT = 10
 LOG_QUERY = {
@@ -235,9 +237,15 @@ def main():
             sys.stdout.flush()
             sys.stderr.flush()
         except IOError:
-            pass    # Avoid `IOError: [Errno 32] Broken pipe` that some times is launched when `Ctrl+C` is used
+            pass    # Avoid `IOError: [Errno 32] Broken pipe` that sometimes is launched when `Ctrl+C` is used
     except ConnectionFailure as e:
-        error("Error trying to authenticate: %s" % str(e), -3)
+        error("Error trying to authenticate: %s" % str(e), ECONNREFUSED)
+    except OperationFailure as e:
+        if 'errmsg' in e.details:
+            sys.stderr.write("Operation failure: %s\n" % e.details['errmsg'])
+            sys.stderr.flush()
+            exit(e.details['code'])
+        error("Error trying to authenticate: %s" % str(e), 3)
 
 
 if __name__ == "__main__":

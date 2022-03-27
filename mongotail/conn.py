@@ -42,10 +42,8 @@ def connect(address, args):
     - tls, tlsCertificateKeyFile, tlsAllowInvalidCertificates, ...: TSL authentication options
     :return: a tuple with ``(client, db)``
     """
-    has_schema = "://" in address
-    address_without_schema = address.split("://")[1] if has_schema else address
     try:
-        host,  port, dbname = get_res_address(address_without_schema)
+        scheme, host, port, dbname, query, username, password = get_res_address(address)
     except AddressError as e:
         error_parsing(str(e).replace("resource", "database"))
 
@@ -63,18 +61,17 @@ def connect(address, args):
                 options["tlsCRLFile"] = args.tlsCRLFile
             if args.tlsAllowInvalidCertificates:
                 options["tlsAllowInvalidCertificates"] = args.tlsAllowInvalidCertificates
-        if args.username:
-            options["username"] = args.username
-            password = args.password
-            if password is None:
-                password = getpass.getpass()
-            options["password"] = password
-            if args.auth_database:
-                options["authSource"] = args.auth_database
-            else:
-                options["authSource"] = 'test'
+        if args.auth_database:
+            options["authSource"] = args.auth_database
+        user = args.username or username
+        if user:
+            options["username"] = user
+            passw = args.password or password
+            if passw is None:
+                passw = getpass.getpass()
+            options["password"] = passw
 
-        if has_schema in address:
+        if scheme:
             client = MongoClient(address, **options)
         else:
             client = MongoClient(host=host, port=port, **options)

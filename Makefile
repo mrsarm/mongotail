@@ -23,7 +23,7 @@ INDEX_URL = ${MAIN_INDEX_URL}
 PIP_ARGS = --index-url ${MAIN_INDEX_URL}
 
 clean:
-	rm -fR build/ mongotail.egg-info/ dist/ .eggs/
+	rm -fR build/ dist/ .eggs/ mongotail.egg-info/
 
 clean-all: clean
 	rm -Rf ${VENV}
@@ -42,7 +42,7 @@ ${VENV}:
 	${PYTHON} -m venv ${VENV}
 	$(eval PIP := $(shell echo ${VENV}/bin/pip))
 	${PIP} install ${PIP_ARGS} -U pip wheel setuptools
-	${PIP} install ${PIP_ARGS} -U pip build twine
+	${PIP} install ${PIP_ARGS} -U build twine
 
 check-mongotail-version:
 	${VENV}/bin/mongotail --version
