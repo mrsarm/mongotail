@@ -38,11 +38,14 @@ install-dev: ${VENV}
 uninstall:
 	yes | ${PIP} uninstall mongotail
 
+update-dev-dependencies:
+	${PIP} install ${PIP_ARGS} -U pip wheel setuptools
+	${PIP} install ${PIP_ARGS} -U build twine
+
 ${VENV}:
 	${PYTHON} -m venv ${VENV}
 	$(eval PIP := $(shell echo ${VENV}/bin/pip))
-	${PIP} install ${PIP_ARGS} -U pip wheel setuptools
-	${PIP} install ${PIP_ARGS} -U build twine
+	${MAKE} update-dev-dependencies
 
 check-mongotail-version:
 	${VENV}/bin/mongotail --version
