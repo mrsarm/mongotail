@@ -1,4 +1,4 @@
-.PHONY: clean install install-dev uninstall check-mongotail-version build upload upload-test
+.PHONY: clean install install-dev uninstall check-mongotail-version build upload upload-test install-from-pypi check-version docker-build-image docker-push-image docker-tag-image-latest
 .DEFAULT_GOAL := install
 
 VENV ?= venv
@@ -66,10 +66,30 @@ upload-test: build
 install-from-pypi:
 	${PYTHON} -m pip install --index-url ${INDEX_URL} --extra-index-url ${MAIN_INDEX_URL} -U --pre mongotail
 
-#build-docker-image:
-	# Remember to update the version in the Dockerfile first !
-#	docker build -t mrsarm/mongotail:3.0.0 .
-#	docker push mrsarm/mongotail:3.0.0
-#	docker tag mrsarm/mongotail:3.0.0 mrsarm/mongotail:latest
-#   docker push mrsarm/mongotail:3.0.0
-#   docker push mrsarm/mongotail:latest
+GREP_VERSION := grep -o -E '[0-9]\.[0-9](b[0-9]|\.[0-9])'
+$(eval DOCKER_VERSION := $(shell cat Dockerfile | ${GREP_VERSION} | head -n 1))
+
+check-version:
+ifndef version
+	second_argument := $(word 2, $(MAKECMDGOALS) )
+	$(error "version" argument not set. Try 'make version=x.y.z $(filter-out $@, $(MAKECMDGOALS))')
+endif
+ifeq ($(version),x.y.z)
+	$(error "version" cannot be equal to "x.y.z", it was just an example :S)
+endif
+ifneq ($(version),$(DOCKER_VERSION))
+	$(error mongotail version is ${version}, while version defined in the Dockerfile is ${DOCKER_VERSION})
+endif
+
+# Remember to update the version in the Dockerfile first !
+docker-build-image: check-version
+	docker build -t mrsarm/mongotail:${version} .
+
+# Run docker-build-image first
+docker-push-image: check-version
+	docker push mrsarm/mongotail:${version}
+
+# Run docker-push-image first
+docker-tag-image-latest: check-version
+	docker tag mrsarm/mongotail:${version} mrsarm/mongotail:latest
+	docker push mrsarm/mongotail:latest

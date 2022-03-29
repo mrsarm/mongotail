@@ -130,12 +130,32 @@ Then you can see the latest logged records with::
 
 To Connect with SSL or a remote Mongo instance, check the options with ``mongotail --help``.
 
+Profiling considerations
+^^^^^^^^^^^^^^^^^^^^^^^^
+
 **NOTE**: The level chosen can affect performance. It also can allow the
 server to write the content of queries to the log, which might have
 information security implications for your deployment. Remember to setup your
 database profiling level to ``0`` again after debugging your data::
 
     $ mongotail MYDATABASE -l 0
+
+
+Find slow queries
+^^^^^^^^^^^^^^^^^
+
+When you activate the profiler, you can choose to so with level 1 profiling
+instead of level 2. Level 1 configure the profiler system to log only "slow" operations.
+Then you have to set the threshold in milliseconds for the profile to consider an
+operation "slow". In the following example the threshold is set to 10 milliseconds::
+
+    $ mongotail sales -l 1
+    Profiling set to level 1
+    $ mongotail sales -s 10
+    Threshold profiling set to 10 milliseconds
+
+Then when you check your databases only operations that take 10 or more milliseconds
+will be displayed.
 
 A *step-by-step* guide of how to use Mongotail and the latest features
 is `here <http://mrsarm.blogspot.com.ar/2016/08/mongotail-2-0-with-new-features-mongodb-3-2-support.html>`_.
