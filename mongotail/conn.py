@@ -69,7 +69,7 @@ def connect(address, args):
             passw = args.password or password
             if passw is None:
                 passw = getpass.getpass()
-            options["password"] = passw
+            options["password"] = passw if passw != '' else None
 
         if scheme:
             client = MongoClient(address, **options)

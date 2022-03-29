@@ -49,7 +49,7 @@ setup(
     platforms='any',
     install_requires=[
         'pymongo[srv]>=3.12,<5.0.0',
-        'res-address==2.0b1',
+        'res-address==2.0b2',
     ],
     entry_points={
         'console_scripts': [
