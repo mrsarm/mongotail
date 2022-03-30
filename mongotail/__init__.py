@@ -37,4 +37,5 @@ db address can be:
   remotehost/foo                foo database on remotehost machine
   "[::1]:9999/foo"              foo database on ::1 machine on port 9999 (IPv6)
   mongodb://10.0.0.4/foo        foo database at mongodb://10.0.0.4
+  mongodb://user@host/foo       foo database at mongodb://host and username set
   mongodb+srv://some.host/foo   foo database at mongodb+srv://some.host"""
