@@ -45,6 +45,8 @@ Usage::
 +------------------------------+-----------------------------------------------------------------+
 | mongodb://10.0.0.4:9999/foo  | foo resource on 10.0.0.4 machine on port 9999, scheme mongodb   |
 +------------------------------+-----------------------------------------------------------------+
+| mongodb+srv://user@host/foo  | foo resource on *host* machine, scheme mongodb+srv and username |
++------------------------------+-----------------------------------------------------------------+
 
 *New in 3.1*: URIs with schemas ``mongodb://`` and ``mongodb+srv://`` are supported,
 e.g. ``mongodb://host:1234/foo``, and user and password can also be set in the URI,
