@@ -28,22 +28,30 @@ Usage::
 
 "db address" can be:
 
-+----------------------+-------------------------------------------------------------+
-| foo                  | foo database on local machine (IPv4 connection)             |
-+----------------------+-------------------------------------------------------------+
-| :1234/foo            | foo database on local machine on port 1234                  |
-+----------------------+-------------------------------------------------------------+
-| 192.169.0.5/foo      | foo database on 192.168.0.5 machine                         |
-+----------------------+-------------------------------------------------------------+
-| remotehost/foo       | foo database on *remotehost* machine                        |
-+----------------------+-------------------------------------------------------------+
-| 192.169.0.5:9999/foo | foo database on 192.168.0.5 machine on port 9999            |
-+----------------------+-------------------------------------------------------------+
-| "[::1]:9999/foo"     | foo database on ::1 machine on port 9999 (IPv6 connection)  |
-+----------------------+-------------------------------------------------------------+
++------------------------------+-----------------------------------------------------------------+
+| foo                          | foo database on local machine (IPv4 connection)                 |
++------------------------------+-----------------------------------------------------------------+
+| :1234/foo                    | foo database on local machine on port 1234                      |
++------------------------------+-----------------------------------------------------------------+
+| 192.169.0.5/foo              | foo database on 192.168.0.5 machine                             |
++------------------------------+-----------------------------------------------------------------+
+| remotehost/foo               | foo database on *remotehost* machine                            |
++------------------------------+-----------------------------------------------------------------+
+| user:pass@host/foo           | foo database on *host* machine, with user and pass provided     |
++------------------------------+-----------------------------------------------------------------+
+| 192.169.0.5:9999/foo         | foo database on 192.168.0.5 machine on port 9999                |
++------------------------------+-----------------------------------------------------------------+
+| "[::1]:9999/foo"             | foo database on ::1 machine on port 9999 (IPv6 connection)      |
++------------------------------+-----------------------------------------------------------------+
+| mongodb://10.0.0.4:9999/foo  | foo resource on 10.0.0.4 machine on port 9999, scheme mongodb   |
++------------------------------+-----------------------------------------------------------------+
 
+*New in 3.1*: URIs with schemas ``mongodb://`` and ``mongodb+srv://`` are supported,
+e.g. ``mongodb://host:1234/foo``, and user and password can also be set in the URI,
+although it's a very insecure way of provide that information. See bellow
+how to provide authentication information like user, password, auth database, ...
 
-Optional arguments:
+**Optional arguments**:
 
 -u USERNAME, --username USERNAME
                       username for authentication
@@ -122,12 +130,32 @@ Then you can see the latest logged records with::
 
 To Connect with SSL or a remote Mongo instance, check the options with ``mongotail --help``.
 
+Profiling considerations
+^^^^^^^^^^^^^^^^^^^^^^^^
+
 **NOTE**: The level chosen can affect performance. It also can allow the
 server to write the content of queries to the log, which might have
 information security implications for your deployment. Remember to setup your
 database profiling level to ``0`` again after debugging your data::
 
     $ mongotail MYDATABASE -l 0
+
+
+Find slow queries
+^^^^^^^^^^^^^^^^^
+
+When you activate the profiler, you can choose to so with level 1 profiling
+instead of level 2. Level 1 configure the profiler system to log only "slow" operations.
+Then you have to set the threshold in milliseconds for the profile to consider an
+operation "slow". In the following example the threshold is set to 10 milliseconds::
+
+    $ mongotail sales -l 1
+    Profiling set to level 1
+    $ mongotail sales -s 10
+    Threshold profiling set to 10 milliseconds
+
+Then when you check your databases only operations that take 10 or more milliseconds
+will be displayed.
 
 A *step-by-step* guide of how to use Mongotail and the latest features
 is `here <http://mrsarm.blogspot.com.ar/2016/08/mongotail-2-0-with-new-features-mongodb-3-2-support.html>`_.

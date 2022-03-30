@@ -43,7 +43,7 @@ def connect(address, args):
     :return: a tuple with ``(client, db)``
     """
     try:
-        host,  port, dbname = get_res_address(address)
+        scheme, host, port, dbname, query, username, password = get_res_address(address)
     except AddressError as e:
         error_parsing(str(e).replace("resource", "database"))
 
@@ -61,24 +61,21 @@ def connect(address, args):
                 options["tlsCRLFile"] = args.tlsCRLFile
             if args.tlsAllowInvalidCertificates:
                 options["tlsAllowInvalidCertificates"] = args.tlsAllowInvalidCertificates
+        if args.auth_database:
+            options["authSource"] = args.auth_database
+        user = args.username or username
+        if user:
+            options["username"] = user
+            passw = args.password or password
+            if passw is None:
+                passw = getpass.getpass()
+            options["password"] = passw if passw != '' else None
 
-        client = MongoClient(host=host, port=port, **options)
+        if scheme:
+            client = MongoClient(address, **options)
+        else:
+            client = MongoClient(host=host, port=port, **options)
     except Exception as e:
         error("Error trying to connect: %s" % str(e), ECONNREFUSED)
-
-    username = args.username
-    password = args.password
-    auth_database = args.auth_database
-
-    if username:
-        if password is None:
-            password = getpass.getpass()
-        if auth_database is None:
-            auth_database = dbname
-        try:
-            auth_db = client[auth_database]
-            auth_db.authenticate(username, password)
-        except Exception as e:
-            error("Error trying to authenticate: %s" % str(e), -3)
     db = client[dbname]
     return client, db
