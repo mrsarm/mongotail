@@ -30,9 +30,12 @@ __doc__ = """Mongotail, Log all MongoDB queries in a "tail"able way."""
 __usage__ = """%(prog)s [db address] [options]
 
 db address can be:
-  foo                   foo database on local machine (IPv4 connection)
-  :1234/foo             foo database on local machine on port 1234
-  192.169.0.5/foo       foo database on 192.168.0.5 machine
-  192.169.0.5:9999/foo  foo database on 192.168.0.5 machine on port 9999
-  remotehost/foo        foo database on remotehost machine
-  "[::1]:9999/foo"      foo database on ::1 machine on port 9999 (IPv6 connection)"""
+  foo                           foo database on local machine (IPv4 connection)
+  :1234/foo                     foo database on local machine on port 1234
+  192.169.0.5/foo               foo database on 192.168.0.5 machine
+  192.169.0.5:999/foo           foo database on 192.168.0.5 machine on port 999
+  remotehost/foo                foo database on remotehost machine
+  "[::1]:9999/foo"              foo database on ::1 machine on port 9999 (IPv6)
+  mongodb://10.0.0.4/foo        foo database at mongodb://10.0.0.4
+  mongodb://user@host/foo       foo database at mongodb://host and username set
+  mongodb+srv://some.host/foo   foo database at mongodb+srv://some.host"""
