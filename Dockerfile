@@ -7,5 +7,5 @@
 
 FROM python:3.10-slim
 MAINTAINER Mariano Ruiz <mrsarm@gmail.com>
-RUN pip install --no-cache-dir mongotail==3.1.0
+RUN pip install --no-cache-dir mongotail==3.1.1b1
 ENTRYPOINT ["mongotail"]
