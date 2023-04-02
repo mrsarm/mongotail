@@ -119,8 +119,8 @@ def print_obj(obj, verbose, metadata, mongo_version):
                 elif 'drop' in obj["command"]:
                     operation = "drop"
                     query = ""
-                elif 'findandmodify' in obj["command"]:
-                    operation = "findandmodify"
+                elif 'findandmodify' in obj["command"] or 'findAndModify' in obj["command"]:
+                    operation = "findandmodify" in obj["command"] and "findandmodify" or "findAndModify"
                     query = "query: " + json_encoder.encode(obj['command']['query'])
                     if 'sort' in obj["command"]:
                         query += ", sort: " + json_encoder.encode(obj['command']['sort'])
@@ -164,8 +164,9 @@ def print_obj(obj, verbose, metadata, mongo_version):
                     query = ", ".join(list(filter(lambda x: x, (key, reduce_func, initial, key_function, cond, finalize_func))))
                 elif 'map' in obj["command"]:
                     operation = "map"
-                    doc = obj["command"]["mapreduce"]
-                    del obj["command"]["mapreduce"]
+                    mapreduce_key = "mapreduce" in obj["command"] and "mapreduce" or "mapReduce"
+                    doc = obj["command"][mapreduce_key]
+                    del obj["command"][mapreduce_key]
                     map_func = min_script(obj['command']["map"])
                     del obj['command']["map"]
                     reduce_func = min_script(obj['command']["reduce"])
