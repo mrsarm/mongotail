@@ -66,7 +66,7 @@ upload-test: build
 install-from-pypi:
 	${PYTHON} -m pip install --index-url ${INDEX_URL} --extra-index-url ${MAIN_INDEX_URL} -U --pre mongotail
 
-GREP_VERSION := grep -o -E '[0-9]\.[0-9](b[0-9]|\.[0-9])'
+GREP_VERSION := grep -o -E '[0-9]\.[0-9](\.[0-9])(b[0-9]|\.[0-9])'
 $(eval DOCKER_VERSION := $(shell cat Dockerfile | ${GREP_VERSION} | head -n 1))
 
 check-version:
