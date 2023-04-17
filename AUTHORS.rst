@@ -27,3 +27,4 @@ People who have submitted patches and reported bugs:
 * Zach (https://github.com/im-zhangxi)
 * Patrick Portal (https://github.com/pp0rtal)
 * Alex Eimer (https://github.com/aeimer)
+* James Bohnert (https://github.com/jsbohnert)

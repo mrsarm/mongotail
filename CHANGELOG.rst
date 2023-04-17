@@ -2,6 +2,12 @@ Mongotail changelog
 ===================
 
 
+3.1.1
+-----
+
+* Recognize and support alternate casings of ``findAndModify`` and ``mapReduce``.
+
+
 3.1.0
 -----
 

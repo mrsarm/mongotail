@@ -1,4 +1,5 @@
-.PHONY: clean install install-dev uninstall check-mongotail-version build upload upload-test install-from-pypi check-version docker-build-image docker-push-image docker-tag-image-latest
+.PHONY: clean install install-dev uninstall check-mongotail-version build upload upload-test \
+        install-from-pypi check-version docker-build-image docker-push-image docker-tag-image-latest
 .DEFAULT_GOAL := install
 
 VENV ?= venv
@@ -66,7 +67,7 @@ upload-test: build
 install-from-pypi:
 	${PYTHON} -m pip install --index-url ${INDEX_URL} --extra-index-url ${MAIN_INDEX_URL} -U --pre mongotail
 
-GREP_VERSION := grep -o -E '[0-9]\.[0-9](b[0-9]|\.[0-9])'
+GREP_VERSION := grep -o -E '[0-9]\.[0-9](\.[0-9])(b[0-9])?'
 $(eval DOCKER_VERSION := $(shell cat Dockerfile | ${GREP_VERSION} | head -n 1))
 
 check-version:
