@@ -3,7 +3,7 @@ Mongotail
 
 .. image:: docs/images/mongotail-console.png
 
-Mongotail, Log all `MongoDB <http://www.mongodb.org>`_ queries in a *"tail"able* way.
+Mongotail, Log all `MongoDB <https://www.mongodb.com/>`_ queries in a *"tail"able* way.
 
 ``mongotail`` is a command line tool to outputs any operation from a Mongo
 database in the standard output. You can see the operations collected by the
@@ -113,7 +113,7 @@ Enabling Database Profiling and Showing Logs
 --------------------------------------------
 
 First you have to activate in the current database the
-`profiler <http://docs.mongodb.org/manual/reference/method/db.setProfilingLevel>`_,
+`profiler <https://www.mongodb.com/docs/manual/reference/method/db.setProfilingLevel/>`_,
 so MongoDB will capture all the activity in a special collection that is read by Mongotail.
 
 You can achieve this with the ``-l, --level`` option. For example, if you want to see the logs
@@ -160,7 +160,7 @@ Then when you check your databases only operations that take 10 or more millisec
 will be displayed.
 
 A *step-by-step* guide of how to use Mongotail and the latest features
-is `here <http://mrsarm.blogspot.com.ar/2016/08/mongotail-2-0-with-new-features-mongodb-3-2-support.html>`_.
+is `here <https://mrsarm.blogspot.com/2016/08/mongotail-2-0-with-new-features-mongodb-3-2-support.html>`_.
 
 
 Installation
@@ -232,17 +232,17 @@ your host. Eg.::
 If it does not work, it may be related with network access rules,
 or because the mongo instance is not listening remote connections,
 check to have properly configured the
-`IP Binding <https://docs.mongodb.com/manual/core/security-mongodb-configuration/>`_.
+`IP Binding <https://www.mongodb.com/docs/manual/core/security-mongodb-configuration/>`_.
 
 About
 -----
 
 Project: https://github.com/mrsarm/mongotail
 
-Authors: (2015-2022) Mariano Ruiz <mrsarm@g...l.com>
+Authors: (2015-2023) Mariano Ruiz <mrsarm@g...l.com>
 
 Changelog: `CHANGELOG.rst <https://github.com/mrsarm/mongotail/blob/master/CHANGELOG.rst>`_
 
-More guides: http://mrsarm.blogspot.com.ar/search/label/Mongotail
+More guides: https://mrsarm.blogspot.com/search/label/Mongotail
 
 License: GPL-3
