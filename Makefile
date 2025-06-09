@@ -78,7 +78,7 @@ endif
 ifeq ($(version),x.y.z)
 	$(error "version" cannot be equal to "x.y.z", it was just an example :S)
 endif
-ifneq ($(version),$(DOCKER_VERSION))
+ifneq ($(shell echo $(version) | cut -d'-' -f1),$(DOCKER_VERSION))
 	$(error mongotail version is ${version}, while version defined in the Dockerfile is ${DOCKER_VERSION})
 endif
 
